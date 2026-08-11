@@ -1,4 +1,4 @@
-# laboral-ai-dashboard-empresas
+
 # Laboral.AI — Dashboard de Empresas
 
 ## Descripción del proyecto
