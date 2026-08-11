@@ -909,10 +909,65 @@ print(
 )
 
 print(
-    "No se realizaron relaciones ni cruces entre collections."
+    "Las collections applications, jobs y companies fueron relacionadas mediante sus identificadores correspondientes."
 )
 
 print(
     "Los nombres de empresas externas fueron agrupados "
     "bajo nombres estandarizados."
+)
+
+# ============================================================
+# 4. CRUCE DE TABLAS
+# ============================================================
+
+# Normalizar IDs para asegurar que puedan cruzarse
+applications_clean["job"] = applications_clean["job"].astype(str)
+jobs_clean["_id"] = jobs_clean["_id"].astype(str)
+jobs_clean["companyId"] = jobs_clean["companyId"].astype(str)
+companies_clean["_id"] = companies_clean["_id"].astype(str)
+
+# ------------------------------------------------------------
+# Applications + Jobs
+# ------------------------------------------------------------
+
+applications_jobs = applications_clean.merge(
+    jobs_clean,
+    left_on="job",
+    right_on="_id",
+    how="left",
+    suffixes=("_application", "_job")
+)
+
+# ------------------------------------------------------------
+# Applications + Jobs + Companies
+# ------------------------------------------------------------
+
+applications_final = applications_jobs.merge(
+    companies_clean,
+    left_on="companyId",
+    right_on="_id",
+    how="left",
+    suffixes=("", "_company")
+)
+print("========================================")
+print("VALIDACIÓN DE CRUCES")
+print("========================================")
+
+print("Postulaciones originales:", len(applications_clean))
+print("Postulaciones después del cruce:", len(applications_final))
+
+print(
+    "Postulaciones duplicadas:",
+    applications_final["_id_application"].duplicated().sum()
+)
+
+print(
+    "Postulaciones con oferta:",
+    applications_final["_id_job"].notna().sum()
+)
+
+print(
+    "Postulaciones con empresa:",
+    applications_final["businessName"].notna().sum()
 )
