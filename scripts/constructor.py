@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -13,14 +12,285 @@ from pymongo import MongoClient
 
 load_dotenv()
 
-# La raíz del proyecto es la carpeta que contiene "scripts"
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Carpeta de memoria caché
 CACHE_DIR = BASE_DIR / "data_cache"
 
-# Crear la carpeta si todavía no existe
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+
+# ============================================================
+# CLASIFICACIÓN DE ÁREA PROFESIONAL
+# ============================================================
+
+def clasificar_area_profesional(department):
+
+    # --------------------------------------------------------
+    # SIN ESPECIFICAR
+    # --------------------------------------------------------
+
+    if pd.isna(department):
+        return "Otros"
+
+    departamento = str(department).strip().lower()
+
+    if departamento == "":
+        return "Otros"
+        
+    # --------------------------------------------------------
+    # 1. ADMINISTRACIÓN, CONTABILIDAD Y FINANZAS
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "administración",
+        "administracion",
+        "contabilidad",
+        "finanzas",
+        "financiera",
+        "tesorería",
+        "tesoreria",
+        "auditoría",
+        "auditoria"
+    ]):
+        return "Administración, Contabilidad y Finanzas"
+
+    # --------------------------------------------------------
+    # 2. ADUANAS Y COMERCIO EXTERIOR
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "aduana",
+        "comercio exterior",
+        "comercio internacional"
+    ]):
+        return "Aduanas y Comercio Exterior"
+
+    # --------------------------------------------------------
+    # 3. AGRICULTURA, GANADERÍA Y AGROINDUSTRIA
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "agricultura",
+        "agrícola",
+        "agricola",
+        "ganadería",
+        "ganaderia",
+        "agroindustria",
+        "agroindustrial",
+        "agropecuario",
+        "agropecuaria",
+        "agronegocio"
+    ]):
+        return "Agricultura, Ganadería y Agroindustria"
+
+    # --------------------------------------------------------
+    # 4. ARQUITECTURA, DISEÑO DE INTERIORES Y DECORACIÓN
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "arquitectura",
+        "diseño de interiores",
+        "decoración",
+        "decoracion"
+    ]):
+        return "Arquitectura, Diseño de Interiores y Decoración"
+
+    # --------------------------------------------------------
+    # 5. COMERCIAL, VENTAS Y DESARROLLO DE NEGOCIOS
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "comercial",
+        "ventas",
+        "venta",
+        "negocios",
+        "desarrollo de negocios",
+        "business development"
+    ]):
+        return "Comercial, Ventas y Desarrollo de Negocios"
+
+    # --------------------------------------------------------
+    # 6. CONSTRUCCIÓN E INGENIERÍA CIVIL
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "construcción",
+        "construccion",
+        "ingeniería civil",
+        "ingenieria civil",
+        "civil"
+    ]):
+        return "Construcción e Ingeniería Civil"
+
+    # --------------------------------------------------------
+    # 7. DISEÑO Y ARTES GRÁFICAS
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "diseño gráfico",
+        "diseño grafico",
+        "artes gráficas",
+        "artes graficas"
+    ]):
+        return "Diseño y Artes Gráficas"
+
+    # --------------------------------------------------------
+    # 8. GASTRONOMÍA, HOTELERÍA Y TURISMO
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "gastronomía",
+        "gastronomia",
+        "hotelería",
+        "hoteleria",
+        "turismo",
+        "restaurante",
+        "cocina"
+    ]):
+        return "Gastronomía, Hotelería y Turismo"
+
+    # --------------------------------------------------------
+    # 9. LEGAL Y CUMPLIMIENTO
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "legal",
+        "jurídico",
+        "juridico",
+        "derecho",
+        "cumplimiento",
+        "compliance"
+    ]):
+        return "Legal y Cumplimiento"
+
+    # --------------------------------------------------------
+    # 10. LOGÍSTICA, ABASTECIMIENTO Y TRANSPORTE
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "logística",
+        "logistica",
+        "abastecimiento",
+        "supply chain",
+        "cadena de suministro",
+        "transporte",
+        "almacén",
+        "almacen",
+        "compras"
+    ]):
+        return "Logística, Abastecimiento y Transporte"
+
+    # --------------------------------------------------------
+    # 11. MANTENIMIENTO Y REPARACIONES TÉCNICAS
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "mantenimiento",
+        "reparaciones",
+        "reparación",
+        "reparacion",
+        "servicio técnico",
+        "servicio tecnico"
+    ]):
+        return "Mantenimiento y Reparaciones Técnicas"
+
+    # --------------------------------------------------------
+    # 12. MARKETING, PUBLICIDAD Y COMUNICACIÓN
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "marketing",
+        "mercadotecnia",
+        "publicidad",
+        "comunicación",
+        "comunicacion",
+        "relaciones públicas",
+        "relaciones publicas"
+    ]):
+        return "Marketing, Publicidad y Comunicación"
+
+    # --------------------------------------------------------
+    # 13. MINERÍA, PETRÓLEO, ENERGÍA Y GAS
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "minería",
+        "mineria",
+        "petróleo",
+        "petroleo",
+        "energía",
+        "energia",
+        "gas",
+        "minas"
+    ]):
+        return "Minería, Petróleo, Energía y Gas"
+
+    # --------------------------------------------------------
+    # 14. PRODUCCIÓN, MANUFACTURA Y OPERACIONES
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "producción",
+        "produccion",
+        "manufactura",
+        "operaciones",
+        "ingeniería industrial",
+        "ingenieria industrial"
+    ]):
+        return "Producción, Manufactura y Operaciones"
+
+    # --------------------------------------------------------
+    # 15. RECURSOS HUMANOS Y CAPACITACIÓN
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "recursos humanos",
+        "rrhh",
+        "talento humano",
+        "capacitación",
+        "capacitacion"
+    ]):
+        return "Recursos Humanos y Capacitación"
+
+    # --------------------------------------------------------
+    # 16. SALUD, MEDICINA Y FARMACIA
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "salud",
+        "medicina",
+        "farmacia",
+        "enfermería",
+        "enfermeria",
+        "odontología",
+        "odontologia"
+    ]):
+        return "Salud, Medicina y Farmacia"
+
+    # --------------------------------------------------------
+    # 17. TECNOLOGÍA, SISTEMAS Y TELECOMUNICACIONES
+    # --------------------------------------------------------
+
+    if any(palabra in departamento for palabra in [
+        "tecnología",
+        "tecnologia",
+        "sistemas",
+        "informática",
+        "informatica",
+        "software",
+        "telecomunicaciones",
+        "tecnología / ti",
+        "tecnologia / ti",
+        "tecnología / sistemas",
+        "tecnologia / sistemas"
+    ]):
+        return "Tecnología, Sistemas y Telecomunicaciones"
+
+    # --------------------------------------------------------
+    # 18. OTROS
+    # --------------------------------------------------------
+
+    return "Otros"
 
 
 # ============================================================
@@ -36,10 +306,6 @@ def constructor():
     client = MongoClient(os.getenv("MONGO_URI"))
     db = client[os.getenv("DB_NAME")]
 
-    # --------------------------------------------------------
-    # Columnas necesarias de companies
-    # --------------------------------------------------------
-
     companies_columns = [
         "_id",
         "businessName",
@@ -50,10 +316,6 @@ def constructor():
         "isActive",
         "createdAt"
     ]
-
-    # --------------------------------------------------------
-    # Columnas necesarias de jobs
-    # --------------------------------------------------------
 
     jobs_columns = [
         "_id",
@@ -72,20 +334,12 @@ def constructor():
         "externalCompanyName"
     ]
 
-    # --------------------------------------------------------
-    # Columnas necesarias de applications
-    # --------------------------------------------------------
-
     applications_columns = [
         "_id",
         "job",
         "createdAt",
         "applicationStatus"
     ]
-
-    # --------------------------------------------------------
-    # Obtener datos desde MongoDB
-    # --------------------------------------------------------
 
     companies = pd.DataFrame(
         db["companies"].find(
@@ -114,10 +368,6 @@ def constructor():
 
     companies_clean = companies.copy()
 
-    # --------------------------------------------------------
-    # Limpiar columnas de texto
-    # --------------------------------------------------------
-
     columnas_texto_companies = [
         "businessName",
         "industry",
@@ -132,17 +382,9 @@ def constructor():
             .str.strip()
         )
 
-    # --------------------------------------------------------
-    # Estandarizar país
-    # --------------------------------------------------------
-
     companies_clean["country"] = companies_clean["country"].replace({
         "Peru": "Perú"
     })
-
-    # --------------------------------------------------------
-    # Extraer tipo de plan
-    # --------------------------------------------------------
 
     companies_clean["planType"] = companies_clean["plan"].apply(
         lambda x: x.get("type") if isinstance(x, dict) else None
@@ -159,10 +401,6 @@ def constructor():
     # ========================================================
 
     jobs_clean = jobs.copy()
-
-    # --------------------------------------------------------
-    # Limpiar columnas de texto
-    # --------------------------------------------------------
 
     columnas_texto_jobs = [
         "title",
@@ -183,35 +421,19 @@ def constructor():
             .str.strip()
         )
 
-    # --------------------------------------------------------
-    # Estandarizar modalidad
-    # --------------------------------------------------------
-
     jobs_clean["modality"] = jobs_clean["modality"].replace({
         "hibrido": "híbrido"
     })
 
-    # --------------------------------------------------------
-    # Estandarizar país
-    # --------------------------------------------------------
-
     jobs_clean["country"] = jobs_clean["country"].replace({
         "Peru": "Perú"
     })
-
-    # --------------------------------------------------------
-    # Tratar valores inválidos/vacíos en country
-    # --------------------------------------------------------
 
     jobs_clean["country"] = jobs_clean["country"].replace(
         r"^\s*\*\s*$",
         pd.NA,
         regex=True
     )
-
-    # --------------------------------------------------------
-    # Limpiar geographicDepartment
-    # --------------------------------------------------------
 
     jobs_clean["geographicDepartment"] = (
         jobs_clean["geographicDepartment"]
@@ -223,9 +445,9 @@ def constructor():
         })
     )
 
-    # --------------------------------------------------------
-    # Eliminar valores inválidos de department
-    # --------------------------------------------------------
+    # ========================================================
+    # VALORES INVÁLIDOS DE DEPARTMENT
+    # ========================================================
 
     valores_invalidos = [
         "test",
@@ -241,45 +463,84 @@ def constructor():
         pd.NA
     )
 
-    # --------------------------------------------------------
-    # Correcciones de escritura en department
-    # --------------------------------------------------------
+    # ========================================================
+    # CORRECCIONES DE DEPARTMENT
+    # ========================================================
 
     correcciones_department = {
-        "Comercia": "Comercial",
-        "Contabilidad y Finanzasc": "Contabilidad y Finanzas",
-        "Auditoria": "Auditoría",
-        "Psicologia": "Psicología",
-        "Tecnologia": "Tecnología",
-        "Tecnologia / Sistemas": "Tecnología / Sistemas",
-        "Tecnologia / TI": "Tecnología / TI",
+
+        "Comercia":
+            "Comercial",
+
+        "Contabilidad y Finanzasc":
+            "Contabilidad y Finanzas",
+
+        "Auditoria":
+            "Auditoría",
+
+        "Psicologia":
+            "Psicología",
+
+        "Tecnologia":
+            "Tecnología",
+
+        "Tecnologia / Sistemas":
+            "Tecnología / Sistemas",
+
+        "Tecnologia / TI":
+            "Tecnología / TI",
+
         "Tecnologia /Soporte Técnico":
             "Tecnología / Soporte Técnico",
+
         "Tecnologia / TI , Soporte Técnico":
             "Tecnología / TI, Soporte Técnico",
-        "Comunicaciónes": "Comunicaciones",
-        "Comunicacion": "Comunicación",
-        "Diseño Grafico": "Diseño Gráfico",
-        "Diseño gráfico": "Diseño Gráfico",
-        "Mineria": "Minería",
-        "Atención al cliente": "Atención al Cliente",
-        "Trabajo social": "Trabajo Social",
+
+        "Comunicaciónes":
+            "Comunicaciones",
+
+        "Comunicacion":
+            "Comunicación",
+
+        "Diseño Grafico":
+            "Diseño Gráfico",
+
+        "Diseño gráfico":
+            "Diseño Gráfico",
+
+        "Mineria":
+            "Minería",
+
+        "Atención al cliente":
+            "Atención al Cliente",
+
+        "Trabajo social":
+            "Trabajo Social",
+
         "Administración y Finanzas.":
             "Administración y Finanzas",
+
         "Administración y Oficina.":
             "Administración y Oficina",
+
         "Logística y Cadena de Suministro.":
             "Logística y Cadena de Suministro",
+
         "Tecnología e Innovación.":
             "Tecnología e Innovación",
+
         "Seguridad Industrial / SSOMA.":
             "Seguridad Industrial / SSOMA",
+
         "Ingeniería Industrial y Operaciones.":
             "Ingeniería Industrial y Operaciones",
+
         "Electricidad Industrial, Electrotecnia o Electricidad.":
             "Electricidad Industrial, Electrotecnia o Electricidad",
+
         "Energía y Electricidad.":
             "Energía y Electricidad",
+
         "Mantenimiento Eléctrico Industrial":
             "Mantenimiento Eléctrico Industrial"
     }
@@ -288,9 +549,18 @@ def constructor():
         correcciones_department
     )
 
-    # --------------------------------------------------------
-    # Convertir fechas
-    # --------------------------------------------------------
+    # ========================================================
+    # CLASIFICACIÓN DE ÁREA PROFESIONAL
+    # ========================================================
+
+    jobs_clean["professionalArea"] = (
+        jobs_clean["department"]
+        .apply(clasificar_area_profesional)
+    )
+
+    # ========================================================
+    # 4. CONVERSIÓN DE FECHAS
+    # ========================================================
 
     jobs_clean["createdAt"] = pd.to_datetime(
         jobs_clean["createdAt"],
@@ -302,13 +572,9 @@ def constructor():
         errors="coerce"
     )
 
-    # --------------------------------------------------------
-    # Eliminar únicamente inconsistencias temporales
-    #
-    # publishUntil no puede ser anterior a createdAt.
-    #
-    # Si alguna fecha está vacía, NO se elimina el registro.
-    # --------------------------------------------------------
+    # ========================================================
+    # 5. ELIMINAR INCONSISTENCIAS TEMPORALES
+    # ========================================================
 
     fechas_invalidas = (
         jobs_clean["publishUntil"].notna()
@@ -329,7 +595,7 @@ def constructor():
     )
 
     # ========================================================
-    # 4. LIMPIEZA DE APPLICATIONS
+    # 6. LIMPIEZA DE APPLICATIONS
     # ========================================================
 
     applications_clean = applications.copy()
@@ -340,14 +606,10 @@ def constructor():
     )
 
     # ========================================================
-    # 5. ESTANDARIZACIÓN DE EMPRESAS
+    # 7. ESTANDARIZACIÓN DE EMPRESAS
     # ========================================================
 
     estandarizacion_empresas = {
-
-        # ----------------------------------------------------
-        # EMPRESAS NO IDENTIFICADAS
-        # ----------------------------------------------------
 
         "Importante empresa del sector":
             "Importante Empresa en el sector",
@@ -370,10 +632,6 @@ def constructor():
         "Confidencial":
             "Importante Empresa en el sector",
 
-        # ----------------------------------------------------
-        # GLORIA
-        # ----------------------------------------------------
-
         "Gloria":
             "Grupo Gloria",
 
@@ -383,33 +641,17 @@ def constructor():
         "Gloria S.A.":
             "Grupo Gloria",
 
-        # ----------------------------------------------------
-        # KOMATSU MITSUI
-        # ----------------------------------------------------
-
         "KOMATSU - MITSUI MAQUINARIAS":
             "Komatsu Mitsui",
 
         "KOMATSU MITSUI":
             "Komatsu Mitsui",
 
-        # ----------------------------------------------------
-        # CAJA TRUJILLO
-        # ----------------------------------------------------
-
         "CAJA TRUJILLO":
             "Caja Trujillo",
 
-        # ----------------------------------------------------
-        # REPSOL
-        # ----------------------------------------------------
-
         "REPSOL":
             "Repsol",
-
-        # ----------------------------------------------------
-        # CAMPOSOL
-        # ----------------------------------------------------
 
         "CAMPOSOL":
             "Camposol",
@@ -417,19 +659,11 @@ def constructor():
         "CAMPOSOL S.A.":
             "Camposol",
 
-        # ----------------------------------------------------
-        # EUROFIRMS
-        # ----------------------------------------------------
-
         "EUROFIRMS":
             "Eurofirms",
 
         "Eurofirms Perú":
             "Eurofirms",
-
-        # ----------------------------------------------------
-        # UTP
-        # ----------------------------------------------------
 
         "UNIVERSIDAD TECNOLOGICA DEL PERU":
             "Universidad Tecnológica del Perú",
@@ -437,23 +671,11 @@ def constructor():
         "UNIVERSIDAD TECNOLOGICA DEL PERU(UTP)":
             "Universidad Tecnológica del Perú",
 
-        # ----------------------------------------------------
-        # CAJA CUSCO
-        # ----------------------------------------------------
-
         "CAJA CUSCO":
             "Caja Cusco",
 
-        # ----------------------------------------------------
-        # CARTAVIO
-        # ----------------------------------------------------
-
         "Cartavio Rum Company":
             "CARTAVIO RUM COMPANY S.A.C.",
-
-        # ----------------------------------------------------
-        # ADECCO
-        # ----------------------------------------------------
 
         "Adecco Perú":
             "Adecco Perú S.A.",
@@ -467,23 +689,11 @@ def constructor():
         "Practicante Profesional de Contabilidad Adecco Perú S.A.":
             "Adecco Perú S.A.",
 
-        # ----------------------------------------------------
-        # TISUR
-        # ----------------------------------------------------
-
         "Tisur":
             "Tisur S.A.",
 
-        # ----------------------------------------------------
-        # CETEMIN
-        # ----------------------------------------------------
-
         "Cetemin":
             "CETEMIN",
-
-        # ----------------------------------------------------
-        # MANPOWER
-        # ----------------------------------------------------
 
         "Manpower":
             "ManpowerGroup",
@@ -506,30 +716,14 @@ def constructor():
         "Practicante de tesorería Manpower":
             "ManpowerGroup",
 
-        # ----------------------------------------------------
-        # DANPER
-        # ----------------------------------------------------
-
         "Dirigido a hombres y mujeres Danper Trujillo SAC":
             "Danper Trujillo SAC",
-
-        # ----------------------------------------------------
-        # GRUPO CENTENARIO
-        # ----------------------------------------------------
 
         "Grupo Centenario Lima":
             "Grupo Centenario",
 
-        # ----------------------------------------------------
-        # AENZA
-        # ----------------------------------------------------
-
         "Grupo Aenza":
             "AENZA",
-
-        # ----------------------------------------------------
-        # PROSERING
-        # ----------------------------------------------------
 
         "PROSERING SRLTDA":
             "PROSERING",
@@ -537,51 +731,23 @@ def constructor():
         "PROSERING Arequipa":
             "PROSERING",
 
-        # ----------------------------------------------------
-        # NATURA
-        # ----------------------------------------------------
-
         "Natura Lima Metropolitan Area":
             "Natura",
-
-        # ----------------------------------------------------
-        # EXPERTIA
-        # ----------------------------------------------------
 
         "Expertia Travel Lima":
             "Expertia Travel",
 
-        # ----------------------------------------------------
-        # OVERALL STRATEGY
-        # ----------------------------------------------------
-
         "OVERALL STRATEGY S.A.C":
             "Overall Strategy",
-
-        # ----------------------------------------------------
-        # TOPITOP
-        # ----------------------------------------------------
 
         "Topitop":
             "Topi Top",
 
-        # ----------------------------------------------------
-        # BACKUS
-        # ----------------------------------------------------
-
         "BACKUS":
             "Backus",
 
-        # ----------------------------------------------------
-        # TRANSPORTES CRUZ DEL SUR
-        # ----------------------------------------------------
-
         "Transportes Cruz Del Sur S.A.C":
             "Transportes Cruz Del Sur S.A.C.",
-
-        # ----------------------------------------------------
-        # PACÍFICO EPS
-        # ----------------------------------------------------
 
         "Pacifico Eps":
             "Pacífico EPS",
@@ -589,47 +755,23 @@ def constructor():
         "Pacífico EPS":
             "Pacífico EPS",
 
-        # ----------------------------------------------------
-        # RANSA
-        # ----------------------------------------------------
-
         "RANSA COMERCIAL S.A.C":
             "Ransa Comercial S.A.C.",
 
         "Ransa Comercial S.A.":
             "Ransa Comercial S.A.C.",
 
-        # ----------------------------------------------------
-        # YURA
-        # ----------------------------------------------------
-
         "Yura S.A":
             "Yura S.A.",
-
-        # ----------------------------------------------------
-        # MIND GROUP
-        # ----------------------------------------------------
 
         "Mind Group Arequipa":
             "Mind Group",
 
-        # ----------------------------------------------------
-        # NEXUS SALUD OCUPACIONAL
-        # ----------------------------------------------------
-
         "Nexus Salud Ocupacional Arequipa, Arequipa, Perú":
             "Nexus Salud Ocupacional",
 
-        # ----------------------------------------------------
-        # CLUB INTERNACIONAL AREQUIPA
-        # ----------------------------------------------------
-
         "Club Internacional Arequipa Arequipa":
             "Club Internacional Arequipa",
-
-        # ----------------------------------------------------
-        # INDRA
-        # ----------------------------------------------------
 
         "Indra Group":
             "Indra",
@@ -637,30 +779,14 @@ def constructor():
         "INDRA PERU":
             "Indra",
 
-        # ----------------------------------------------------
-        # FINANCIERA CONFIANZA
-        # ----------------------------------------------------
-
         "FINANCIERA CONFIANZA":
             "Financiera Confianza",
-
-        # ----------------------------------------------------
-        # SHOUGANG
-        # ----------------------------------------------------
 
         "SHOUGANG HIERRO PERU S.A.A":
             "SHOUGANG HIERRO PERU S.A.A.",
 
-        # ----------------------------------------------------
-        # COMPAÑÍA MINERA SOL DE LOS ANDES
-        # ----------------------------------------------------
-
         "Compañía Minera Sol de los Andes":
             "Compañía Minera Sol de los Andes S.A.C.",
-
-        # ----------------------------------------------------
-        # DIAR INGENIEROS
-        # ----------------------------------------------------
 
         "DIAR INGENIEROS S.A":
             "Diar Ingenieros S.A.",
@@ -668,16 +794,8 @@ def constructor():
         "Diar Ingenieros S. A.":
             "Diar Ingenieros S.A.",
 
-        # ----------------------------------------------------
-        # TIENDAS TAMBO
-        # ----------------------------------------------------
-
         "TIENDAS TAMBO":
             "Tiendas Tambo",
-
-        # ----------------------------------------------------
-        # INGENIERÍA SUMINISTROS Y SOLUCIONES
-        # ----------------------------------------------------
 
         "8A INGENIERIA SUMINISTROS Y SOLUCIONES":
             "Ingeniería Suministros y Soluciones"
@@ -689,7 +807,7 @@ def constructor():
     )
 
     # ========================================================
-    # 6. NORMALIZACIÓN DE IDS
+    # 8. NORMALIZACIÓN DE IDS
     # ========================================================
 
     applications_clean["job"] = (
@@ -713,7 +831,7 @@ def constructor():
     )
 
     # ========================================================
-    # 7. CRUCE APPLICATIONS → JOBS
+    # 9. CRUCE APPLICATIONS → JOBS
     # ========================================================
 
     applications_jobs = applications_clean.merge(
@@ -728,7 +846,7 @@ def constructor():
     )
 
     # ========================================================
-    # 8. CRUCE APPLICATIONS + JOBS → COMPANIES
+    # 10. CRUCE APPLICATIONS + JOBS → COMPANIES
     # ========================================================
 
     applications_final = applications_jobs.merge(
@@ -743,7 +861,7 @@ def constructor():
     )
 
     # ========================================================
-    # 9. VALIDACIÓN DE DATASETS
+    # 11. VALIDACIÓN DE DATASETS
     # ========================================================
 
     print("========================================")
@@ -763,7 +881,7 @@ def constructor():
     print("Columnas:", applications_clean.shape[1])
 
     # ========================================================
-    # 10. VALIDACIÓN DE CRUCES
+    # 12. VALIDACIÓN DE CRUCES
     # ========================================================
 
     print("\n========================================")
@@ -802,7 +920,20 @@ def constructor():
     )
 
     # ========================================================
-    # 11. RESULTADO FINAL
+    # 13. VALIDACIÓN DE ÁREAS PROFESIONALES
+    # ========================================================
+
+    print("\n========================================")
+    print("ÁREAS PROFESIONALES")
+    print("========================================")
+
+    print(
+        jobs_clean["professionalArea"]
+        .value_counts()
+    )
+
+    # ========================================================
+    # 14. RESULTADO FINAL
     # ========================================================
 
     print("\n========================================")
@@ -825,11 +956,15 @@ def constructor():
     )
 
     print(
+        "Las ofertas fueron clasificadas por área profesional."
+    )
+
+    print(
         "Los cruces fueron validados correctamente."
     )
 
     # ========================================================
-    # 12. GUARDAR DATASETS EN CACHE
+    # 15. GUARDAR DATASETS EN CACHE
     # ========================================================
 
     companies_clean.to_csv(
@@ -874,7 +1009,7 @@ def constructor():
     print("✓ applications_final.csv")
 
     # ========================================================
-    # 13. RETORNO DE TABLAS
+    # 16. RETORNO DE TABLAS
     # ========================================================
 
     return (
@@ -899,4 +1034,3 @@ if __name__ == "__main__":
         applications_jobs,
         applications_final
     ) = constructor()
-

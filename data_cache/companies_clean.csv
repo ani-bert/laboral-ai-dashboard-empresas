@@ -1,84 +1,38 @@
 _id,isActive,createdAt,plan,businessName,country,industry,verificationStatus,planType
 68fb9d847786ced94f9f0c11,True,2025-10-24 15:38:44.665,,,,,,NONE
 6900493bdb711f0cddea3e95,True,2025-10-28 04:40:27.280,,,,,,NONE
-69022e2b8d47789fe1bc1065,True,2025-10-29 15:09:31.282,,,,,,NONE
-690a3a3e9d8bf55845825a2c,True,2025-11-04 17:39:10.412,,,,,,NONE
-69115c7a9be255790d5950a5,True,2025-11-10 03:31:06.975,,,,,,NONE
 69120eb074d1880032cff302,True,2025-11-10 16:11:28.111,,,,,,NONE
-6912968d74d1880032cff587,True,2025-11-11 01:51:09.493,,,,,,NONE
 692790216dc39bf20c52f5f5,True,2025-11-26 23:41:21.773,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 13, 20, 43, 56, 248000), 'endsAt': datetime.datetime(2026, 4, 13, 20, 43, 56, 248000)}}",,,,,FREE_TRIAL
 692f56d3aafd375d6d269ff1,True,2025-12-02 21:14:59.728,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 11, 14, 14, 56, 837000), 'endsAt': datetime.datetime(2026, 4, 11, 14, 14, 56, 837000)}}",Testhack Corp S.A.C.S.,Perú,Startups / Scaleups,,FREE_TRIAL
 6932b089703a73fba9dac3ae,True,2025-12-05 10:14:33.997,,,,,,NONE
 693da1713d5cc7809ad56001,True,2025-12-13 17:25:05.928,,,,,,NONE
 6940620dc3a38b5aa2b79d47,True,2025-12-15 19:31:25.883,,,,,,NONE
-6943b91ace85e2e5d8f671ab,True,2025-12-18 08:19:38.662,,,,,,NONE
-694aa0dfbc9d706db2d17468,True,2025-12-23 14:02:07.775,,,,,,NONE
-69514028213785b3aa4fb609,True,2025-12-28 14:35:20.447,,,,,,NONE
 6951a182c1495a0c80376290,True,2025-12-28 21:30:42.176,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 8, 17, 1, 30, 505000), 'endsAt': datetime.datetime(2026, 4, 8, 17, 1, 30, 505000)}}",1234,Perú,EdTech,,FREE_TRIAL
 6957d4ba9c1d6916d378256e,True,2026-01-02 14:22:50.126,,Laboral SAC,Perú,tec,,NONE
-695c23a130285e17ae8f447f,True,2026-01-05 20:48:33.893,,,,,,NONE
 695d09657a494bbe8375f2c9,True,2026-01-06 13:08:53.954,,,,,,NONE
 69715032e4f81e18f9196cb2,True,2026-01-21 22:16:18.466,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 21, 22, 24, 27, 359000), 'endsAt': datetime.datetime(2026, 4, 21, 22, 24, 27, 359000)}}",Nova Maquinarias,Perú,,,FREE_TRIAL
 6976a0827af3401857d4286a,True,2026-01-25 23:00:18.921,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 25, 23, 1, 5, 614000), 'endsAt': datetime.datetime(2026, 4, 25, 23, 1, 5, 614000)}}",CJ Inversiones EIRL,Perú,,,FREE_TRIAL
 6977eedf2804d91b11fa0e46,True,2026-01-26 22:46:55.449,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 27, 1, 38, 19, 889000), 'endsAt': datetime.datetime(2026, 4, 27, 1, 38, 19, 889000)}}",AO PETS S.A.C.,Perú,Atención al Cliente y Call Centers (BPO),,FREE_TRIAL
-697927bfb091f4fd95fc10ba,True,2026-01-27 21:01:51.759,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 27, 21, 2, 55, 389000), 'endsAt': datetime.datetime(2026, 4, 27, 21, 2, 55, 389000)}}",,,,,FREE_TRIAL
-697ac812785dcaccfa78e732,True,2026-01-29 02:38:10.788,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 30, 5, 40, 24, 757000), 'endsAt': datetime.datetime(2026, 4, 30, 5, 40, 24, 757000)}}",RUC,Perú,['Auditoría y Contabilidad'],APPROVED,FREE_TRIAL
-697cb60dfbd83ca7a769bc79,True,2026-01-30 13:45:49.104,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 1, 30, 13, 46, 16, 566000), 'endsAt': datetime.datetime(2027, 4, 30, 13, 46, 16, 566000)}}",asdasda,Perú,Startups / Scaleups,,FREE_TRIAL
-697cc374fbd83ca7a769be9c,True,2026-01-30 14:43:00.104,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 7, 15, 52, 3, 919000), 'endsAt': datetime.datetime(2026, 5, 8, 15, 52, 3, 919000)}}",AiylnMedinStudio,Perú,Marketing Digital y Social Media,,FREE_TRIAL
-697cc3affbd83ca7a769bea8,True,2026-01-30 14:43:59.904,{'type': 'NONE'},,,,,NONE
-697d25b0fbd83ca7a769c443,True,2026-01-30 21:42:08.060,{'type': 'NONE'},,,,,NONE
 6984096943090c4710c3b3fe,True,2026-02-05 03:07:21.028,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 5, 3, 11, 39, 84000), 'endsAt': datetime.datetime(2026, 5, 6, 3, 11, 39, 84000)}}",XIND E.I.R.L.,Perú,Inteligencia Artificial y Robótica,,FREE_TRIAL
-698409f243090c4710c3b417,True,2026-02-05 03:09:38.964,{'type': 'NONE'},,,,,NONE
-698d0e460942cd6cf280920c,True,2026-02-11 23:18:30.106,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 11, 23, 19, 7, 105000), 'endsAt': datetime.datetime(2026, 5, 12, 23, 19, 7, 105000)}}",,,,,FREE_TRIAL
 698d1f7a0942cd6cf28093ac,True,2026-02-12 00:31:54.457,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 18, 0, 11, 51, 308000), 'endsAt': datetime.datetime(2026, 5, 19, 0, 11, 51, 308000)}}",TESTHACK CORP S.A.C.S,Perú,Startups / Scaleups,APPROVED,FREE_TRIAL
-698d48f70942cd6cf2809788,True,2026-02-12 03:28:55.261,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 12, 3, 29, 10, 143000), 'endsAt': datetime.datetime(2026, 5, 13, 3, 29, 10, 143000)}}",,,,,FREE_TRIAL
-698f9bedc19993625642af84,True,2026-02-13 21:47:26.012,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 4, 7, 17, 35, 48, 622000), 'endsAt': datetime.datetime(2026, 7, 6, 17, 35, 48, 622000)}}",Tecsup,Perú,EdTech (Tecnología Educativa),PENDING,FREE_TRIAL
-698fec29c19993625642affa,True,2026-02-14 03:29:45.583,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 4, 7, 18, 3, 21, 812000), 'endsAt': datetime.datetime(2026, 7, 6, 18, 3, 21, 812000)}}",,,,,FREE_TRIAL
-6994489ab1a3f4c35e9590a5,True,2026-02-17 10:53:14.580,{'type': 'NONE'},,,,,NONE
-69991181406cd5a7ed2a42c9,True,2026-02-21 01:59:29.242,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 21, 2, 1, 18, 290000), 'endsAt': datetime.datetime(2026, 5, 22, 2, 1, 18, 290000)}}",TestLab,Perú,Auditoría y Contabilidad,REJECTED,FREE_TRIAL
-6999b4482bb746921d308947,True,2026-02-21 13:34:00.486,{'type': 'NONE'},,,,NOT_STARTED,NONE
 699cb4b59f413832731dfd14,True,2026-02-23 20:12:37.715,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 23, 20, 19, 46, 65000), 'endsAt': datetime.datetime(2026, 5, 24, 20, 19, 46, 65000)}}",,,,NOT_STARTED,FREE_TRIAL
 699d2e941098f169ac6b9544,True,2026-02-24 04:52:36.485,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 24, 4, 53, 6, 657000), 'endsAt': datetime.datetime(2026, 5, 25, 4, 53, 6, 657000)}}",,,,NOT_STARTED,FREE_TRIAL
-699de7aa7cc99f0e587d0b2c,True,2026-02-24 18:02:18.501,{'type': 'NONE'},,,,NOT_STARTED,NONE
 69a21b6572698b1ef0fc120b,True,2026-02-27 22:32:05.304,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 2, 27, 22, 34, 13, 931000), 'endsAt': datetime.datetime(2026, 5, 28, 22, 34, 13, 931000)}}",GREMIO NACIONAL DE EMPRENDEDORES SOSTENIBLES DEL PERU,Perú,Promoción y Activaciones de Marca,NOT_STARTED,FREE_TRIAL
 69a21d1c72698b1ef0fc12a6,True,2026-02-27 22:39:24.450,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 3, 30, 0, 22, 26, 356000), 'endsAt': datetime.datetime(2026, 6, 28, 0, 22, 26, 356000)}}",TestLab,Perú,Diseño Gráfico y UX/UI,PENDING,FREE_TRIAL
 69a21d3972698b1ef0fc12c0,True,2026-02-27 22:39:53.332,{'type': 'NONE'},,,,NOT_STARTED,NONE
-69a2256f72698b1ef0fc1515,True,2026-02-27 23:14:55.471,{'type': 'NONE'},,,,NOT_STARTED,NONE
-69aa712a08797617982a99c5,True,2026-03-06 06:16:10.010,{'type': 'NONE'},,,,NOT_STARTED,NONE
 69b548af255925208cabebca,True,2026-03-14 11:38:23.144,{'type': 'NONE'},,,,NOT_STARTED,NONE
 69b5f1900d0d354faca6707a,True,2026-03-14 23:38:56.607,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 3, 14, 23, 50, 36, 6000), 'endsAt': datetime.datetime(2026, 6, 12, 23, 50, 36, 6000)}}",,,,NOT_STARTED,FREE_TRIAL
-69bece7d739f4a5de60ee9b6,True,2026-03-21 16:59:41.687,{'type': 'NONE'},,,,NOT_STARTED,NONE
 69c0b2aa09d9ef031b767a1d,True,2026-03-23 03:25:30.276,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 3, 28, 22, 28, 46, 912000), 'endsAt': datetime.datetime(2026, 6, 26, 22, 28, 46, 912000)}}",Lumina Technologies S.A.C.,Perú,Marketing Digital y Social Media,NOT_STARTED,FREE_TRIAL
-69c1845aa4ec1610ef71e321,True,2026-03-23 18:20:10.275,{'type': 'NONE'},,,,NOT_STARTED,NONE
 69c41982a4ec1610ef723051,True,2026-03-25 17:21:06.137,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 3, 25, 17, 23, 36, 84000), 'endsAt': datetime.datetime(2026, 6, 23, 17, 23, 36, 84000)}}",,,,NOT_STARTED,FREE_TRIAL
 69c5aafa40a5850469e21ebe,True,2026-03-26 21:54:02.761,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 3, 26, 22, 22, 18, 686000), 'endsAt': datetime.datetime(2026, 6, 24, 22, 22, 18, 686000)}}",,,,NOT_STARTED,FREE_TRIAL
 69d304a93406e44656e2db2f,True,2026-04-06 00:56:09.005,{'type': 'NONE'},,,,NOT_STARTED,NONE
 69d84e11ff86665d3d4ceac3,True,2026-04-10 01:10:41.923,{'type': 'NONE'},,,[],NOT_STARTED,NONE
 69d84e26ff86665d3d4ceae2,True,2026-04-10 01:11:02.027,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-69dd06ac27989996d7062024,True,2026-04-13 15:07:24.989,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-69dd3af613a1381b58d4da1c,True,2026-04-13 18:50:30.482,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 4, 13, 18, 50, 58, 876000), 'endsAt': datetime.datetime(2026, 7, 12, 18, 50, 58, 876000)}}",,,[],NOT_STARTED,FREE_TRIAL
-69e0b3f9c1f4786ba0572d92,True,2026-04-16 10:03:37.084,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-69e666e8239f20d09d977418,True,2026-04-20 17:48:24.229,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 4, 20, 17, 59, 55, 206000), 'endsAt': datetime.datetime(2026, 7, 19, 17, 59, 55, 206000)}}",,,[],NOT_STARTED,FREE_TRIAL
-69e7c2493708aede00e53606,True,2026-04-21 18:30:33.135,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-69e829523708aede00e5445b,True,2026-04-22 01:50:10.972,{'type': 'NONE'},,,[],NOT_STARTED,NONE
 69ecf13ed20f4a0acbfe7c5f,True,2026-04-25 16:52:14.432,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 4, 25, 17, 14, 29, 12000), 'endsAt': datetime.datetime(2026, 7, 24, 17, 14, 29, 12000)}}",,,[],NOT_STARTED,FREE_TRIAL
 69f2cd52b1d7db38e10fc39b,True,2026-04-30 03:32:34.483,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-69f4f1f70cc7c79055a2ca2a,True,2026-05-01 18:33:27.283,{'type': 'NONE'},,,[],NOT_STARTED,NONE
 69f67313b4b12206613dcb44,True,2026-05-02 21:56:35.952,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 5, 2, 22, 15, 10, 573000), 'endsAt': datetime.datetime(2026, 7, 31, 22, 15, 10, 573000)}}",,,[],NOT_STARTED,FREE_TRIAL
 6a03b634f17c40a03586f7b4,True,2026-05-12 23:22:28.442,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 5, 12, 23, 22, 58, 242000), 'endsAt': datetime.datetime(2026, 8, 10, 23, 22, 58, 242000)}}",,,[],NOT_STARTED,FREE_TRIAL
 6a0b41085edb773a55662749,True,2026-05-18 16:40:40.853,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 5, 18, 16, 41, 30, 235000), 'endsAt': datetime.datetime(2026, 8, 16, 16, 41, 30, 235000)}}",Inmobiliaria Impulso León SAC,Perú,['Construcción y Arquitectura'],NOT_STARTED,FREE_TRIAL
-6a1687e5fc0c928a51e7ee5f,True,2026-05-27 05:57:57.875,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a1a7eea96f20145d4976ff2,True,2026-05-30 06:08:42.907,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a2043f24251482045a5089f,True,2026-06-03 15:10:42.659,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a20620f4251482045a50fc5,True,2026-06-03 17:19:11.441,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a29f97d8152d3cbbccfde89,True,2026-06-10 23:55:41.629,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a38c3529bf6db77526ff9da,True,2026-06-22 05:08:34.556,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a503532510d78559236239a,True,2026-07-09 23:56:34.357,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 7, 15, 22, 37, 11, 833000), 'endsAt': datetime.datetime(2026, 10, 13, 22, 37, 11, 833000)}}",,,[],NOT_STARTED,FREE_TRIAL
-6a5039d0510d7855923650a0,True,2026-07-10 00:16:16.411,{'type': 'NONE'},,,[],NOT_STARTED,NONE
 6a516874269dd13c50d6d8eb,True,2026-07-10 21:47:32.650,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 7, 10, 21, 53, 3, 548000), 'endsAt': datetime.datetime(2026, 10, 8, 21, 53, 3, 548000)}}",BAMBOO BALANCE PERU S.A.C.,Perú,['E-commerce y Marketplaces'],PENDING,FREE_TRIAL
-6a572d6191fa72c3539087cf,True,2026-07-15 06:49:05.910,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a57d5463740f1c7deba7c36,True,2026-07-15 18:45:26.753,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a595104303628e35f2309b3,True,2026-07-16 21:45:40.029,{'type': 'NONE'},,,[],NOT_STARTED,NONE
 6a5e84dc5335905510d7acf1,True,2026-07-20 20:28:12.550,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a6be05e5bc461d42a769bba,True,2026-07-30 23:38:06.364,{'type': 'NONE'},,,[],NOT_STARTED,NONE
-6a76cf9f82c113c73cbca3e5,True,2026-08-08 06:41:35.208,{'type': 'NONE'},,,[],NOT_STARTED,NONE
+6a7cfe782032e1bad3c26e2f,True,2026-08-12 23:15:04.619,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 8, 12, 23, 15, 47, 778000), 'endsAt': datetime.datetime(2026, 11, 10, 23, 15, 47, 778000)}}",,,[],NOT_STARTED,FREE_TRIAL
