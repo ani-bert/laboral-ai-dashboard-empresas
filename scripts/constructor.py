@@ -304,8 +304,8 @@ def constructor():
 # 1. CONEXIÓN Y CARGA DESDE MONGODB
 # ========================================================
 
-mongo_uri = os.getenv("MONGO_URI") or st.secrets.get("MONGO_URI")
-db_name = os.getenv("DB_NAME") or st.secrets.get("DB_NAME")
+    mongo_uri = os.getenv("MONGO_URI") or st.secrets.get("MONGO_URI")
+    db_name = os.getenv("DB_NAME") or st.secrets.get("DB_NAME")
 
 if not mongo_uri:
     raise ValueError(
