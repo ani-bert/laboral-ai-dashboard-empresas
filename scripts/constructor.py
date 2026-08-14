@@ -21,6 +21,27 @@ CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ============================================================
+# OBTENER VARIABLES DE CONFIGURACIÓN
+# ============================================================
+
+def obtener_configuracion(nombre):
+
+    # Primero intenta obtener la variable desde .env
+    valor = os.getenv(nombre)
+
+    if valor:
+        return valor
+
+    # Si no existe, intenta obtenerla desde Streamlit Secrets
+    try:
+        valor = st.secrets.get(nombre)
+    except Exception:
+        valor = None
+
+    return valor
+
+
+# ============================================================
 # CLASIFICACIÓN DE ÁREA PROFESIONAL
 # ============================================================
 
@@ -37,7 +58,7 @@ def clasificar_area_profesional(department):
 
     if departamento == "":
         return "Otros"
-        
+
     # --------------------------------------------------------
     # 1. ADMINISTRACIÓN, CONTABILIDAD Y FINANZAS
     # --------------------------------------------------------
@@ -300,27 +321,40 @@ def clasificar_area_profesional(department):
 
 def constructor():
 
-# ========================================================
-# 1. CONEXIÓN Y CARGA DESDE MONGODB
-# ========================================================
+    # ========================================================
+    # 1. CONEXIÓN Y CARGA DESDE MONGODB
+    # ========================================================
 
-    mongo_uri = os.getenv("MONGO_URI") or st.secrets.get("MONGO_URI")
-    db_name = os.getenv("DB_NAME") or st.secrets.get("DB_NAME")
+    mongo_uri = obtener_configuracion("MONGO_URI")
+    db_name = obtener_configuracion("DB_NAME")
 
-if not mongo_uri:
-    raise ValueError(
-        "No se encontró MONGO_URI en las variables de entorno "
-        "ni en Streamlit Secrets."
+    if not mongo_uri:
+        raise ValueError(
+            "No se encontró MONGO_URI. "
+            "Configúralo en el archivo .env localmente "
+            "o en Streamlit Secrets."
+        )
+
+    if not db_name:
+        raise ValueError(
+            "No se encontró DB_NAME. "
+            "Configúralo en el archivo .env localmente "
+            "o en Streamlit Secrets."
+        )
+
+    client = MongoClient(
+        mongo_uri,
+        serverSelectionTimeoutMS=10000
     )
 
-if not db_name:
-    raise ValueError(
-        "No se encontró DB_NAME en las variables de entorno "
-        "ni en Streamlit Secrets."
-    )
+    # Verificar conexión
+    client.admin.command("ping")
 
-client = MongoClient(mongo_uri)
-db = client[db_name]
+    db = client[db_name]
+
+    # ========================================================
+    # COLUMNAS DE COMPANIES
+    # ========================================================
 
     companies_columns = [
         "_id",
@@ -332,6 +366,10 @@ db = client[db_name]
         "isActive",
         "createdAt"
     ]
+
+    # ========================================================
+    # COLUMNAS DE JOBS
+    # ========================================================
 
     jobs_columns = [
         "_id",
@@ -350,12 +388,20 @@ db = client[db_name]
         "externalCompanyName"
     ]
 
+    # ========================================================
+    # COLUMNAS DE APPLICATIONS
+    # ========================================================
+
     applications_columns = [
         "_id",
         "job",
         "createdAt",
         "applicationStatus"
     ]
+
+    # ========================================================
+    # CARGA DE COLLECTIONS
+    # ========================================================
 
     companies = pd.DataFrame(
         db["companies"].find(
@@ -392,23 +438,41 @@ db = client[db_name]
     ]
 
     for col in columnas_texto_companies:
+
+        if col not in companies_clean.columns:
+            companies_clean[col] = pd.NA
+
         companies_clean[col] = (
             companies_clean[col]
             .astype("string")
             .str.strip()
         )
 
-    companies_clean["country"] = companies_clean["country"].replace({
-        "Peru": "Perú"
-    })
+    if "country" in companies_clean.columns:
+
+        companies_clean["country"] = (
+            companies_clean["country"]
+            .replace({
+                "Peru": "Perú"
+            })
+        )
+
+    if "plan" not in companies_clean.columns:
+        companies_clean["plan"] = None
 
     companies_clean["planType"] = companies_clean["plan"].apply(
-        lambda x: x.get("type") if isinstance(x, dict) else None
+        lambda x: (
+            x.get("type")
+            if isinstance(x, dict)
+            else None
+        )
     )
 
     companies_clean["planType"] = (
         companies_clean["planType"]
-        .replace({"None": "NONE"})
+        .replace({
+            "None": "NONE"
+        })
         .fillna("NONE")
     )
 
@@ -431,24 +495,37 @@ db = client[db_name]
     ]
 
     for col in columnas_texto_jobs:
+
+        if col not in jobs_clean.columns:
+            jobs_clean[col] = pd.NA
+
         jobs_clean[col] = (
             jobs_clean[col]
             .astype("string")
             .str.strip()
         )
 
-    jobs_clean["modality"] = jobs_clean["modality"].replace({
-        "hibrido": "híbrido"
-    })
+    jobs_clean["modality"] = (
+        jobs_clean["modality"]
+        .replace({
+            "hibrido": "híbrido"
+        })
+    )
 
-    jobs_clean["country"] = jobs_clean["country"].replace({
-        "Peru": "Perú"
-    })
+    jobs_clean["country"] = (
+        jobs_clean["country"]
+        .replace({
+            "Peru": "Perú"
+        })
+    )
 
-    jobs_clean["country"] = jobs_clean["country"].replace(
-        r"^\s*\*\s*$",
-        pd.NA,
-        regex=True
+    jobs_clean["country"] = (
+        jobs_clean["country"]
+        .replace(
+            r"^\s*\*\s*$",
+            pd.NA,
+            regex=True
+        )
     )
 
     jobs_clean["geographicDepartment"] = (
@@ -474,9 +551,12 @@ db = client[db_name]
         "Lima"
     ]
 
-    jobs_clean["department"] = jobs_clean["department"].replace(
-        valores_invalidos,
-        pd.NA
+    jobs_clean["department"] = (
+        jobs_clean["department"]
+        .replace(
+            valores_invalidos,
+            pd.NA
+        )
     )
 
     # ========================================================
@@ -561,8 +641,9 @@ db = client[db_name]
             "Mantenimiento Eléctrico Industrial"
     }
 
-    jobs_clean["department"] = jobs_clean["department"].replace(
-        correcciones_department
+    jobs_clean["department"] = (
+        jobs_clean["department"]
+        .replace(correcciones_department)
     )
 
     # ========================================================
@@ -615,6 +696,9 @@ db = client[db_name]
     # ========================================================
 
     applications_clean = applications.copy()
+
+    if "applicationStatus" not in applications_clean.columns:
+        applications_clean["applicationStatus"] = "SIN_ESTADO"
 
     applications_clean["applicationStatus"] = (
         applications_clean["applicationStatus"]
@@ -817,6 +901,9 @@ db = client[db_name]
             "Ingeniería Suministros y Soluciones"
     }
 
+    if "externalCompanyName" not in jobs_clean.columns:
+        jobs_clean["externalCompanyName"] = pd.NA
+
     jobs_clean["externalCompanyName"] = (
         jobs_clean["externalCompanyName"]
         .replace(estandarizacion_empresas)
@@ -825,6 +912,18 @@ db = client[db_name]
     # ========================================================
     # 8. NORMALIZACIÓN DE IDS
     # ========================================================
+
+    if "job" not in applications_clean.columns:
+        applications_clean["job"] = pd.NA
+
+    if "_id" not in jobs_clean.columns:
+        jobs_clean["_id"] = pd.NA
+
+    if "companyId" not in jobs_clean.columns:
+        jobs_clean["companyId"] = pd.NA
+
+    if "_id" not in companies_clean.columns:
+        companies_clean["_id"] = pd.NA
 
     applications_clean["job"] = (
         applications_clean["job"]
@@ -914,26 +1013,32 @@ db = client[db_name]
         len(applications_final)
     )
 
-    print(
-        "Postulaciones duplicadas:",
-        applications_final[
-            "_id_application"
-        ].duplicated().sum()
-    )
+    if "_id_application" in applications_final.columns:
 
-    print(
-        "Postulaciones con oferta:",
-        applications_final[
-            "_id_job"
-        ].notna().sum()
-    )
+        print(
+            "Postulaciones duplicadas:",
+            applications_final[
+                "_id_application"
+            ].duplicated().sum()
+        )
 
-    print(
-        "Postulaciones con empresa:",
-        applications_final[
-            "businessName"
-        ].notna().sum()
-    )
+    if "_id_job" in applications_final.columns:
+
+        print(
+            "Postulaciones con oferta:",
+            applications_final[
+                "_id_job"
+            ].notna().sum()
+        )
+
+    if "businessName" in applications_final.columns:
+
+        print(
+            "Postulaciones con empresa:",
+            applications_final[
+                "businessName"
+            ].notna().sum()
+        )
 
     # ========================================================
     # 13. VALIDACIÓN DE ÁREAS PROFESIONALES
