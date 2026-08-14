@@ -6,7 +6,7 @@ Laboral.AI es una plataforma que conecta **empresas y postulantes**, permitiendo
 
 Este proyecto consiste en el desarrollo de un **dashboard interactivo para el módulo Empresas**, cuyo objetivo es transformar y consolidar información proveniente de diferentes colecciones de MongoDB para facilitar el análisis de las empresas registradas y su actividad dentro de la plataforma.
 
-El dashboard busca proporcionar al área comercial una visión clara sobre el **crecimiento, características, estado y nivel de actividad de las empresas**, mediante indicadores y visualizaciones interactivas que apoyen la toma de decisiones basada en datos.
+El dashboard proporciona al área comercial una visión sobre el **crecimiento, características y nivel de actividad de las empresas**, mediante indicadores y visualizaciones interactivas que apoyan la toma de decisiones basada en datos.
 
 ---
 
@@ -14,16 +14,15 @@ El dashboard busca proporcionar al área comercial una visión clara sobre el **
 
 ### Objetivo general
 
-Diseñar e implementar un dashboard de empresas que permita analizar la información de las empresas registradas en Laboral.AI y monitorear su actividad dentro de la plataforma mediante indicadores claros y visualizaciones interactivas.
+Diseñar e implementar un dashboard de empresas que permita analizar la información de las empresas registradas en Laboral.AI y monitorear su actividad mediante indicadores y visualizaciones interactivas.
 
 ### Objetivos específicos
 
 * Analizar la información de las empresas registradas.
-* Consolidar información proveniente de diferentes colecciones de MongoDB.
+* Consolidar información de diferentes colecciones de MongoDB.
 * Limpiar y transformar los datos para su análisis.
 * Identificar indicadores relevantes para el área comercial.
-* Analizar la evolución del registro de empresas.
-* Analizar las características y el estado de las empresas.
+* Analizar la evolución y características de las empresas.
 * Medir la actividad empresarial mediante las ofertas laborales publicadas.
 * Facilitar la exploración de los datos mediante filtros interactivos.
 * Presentar los resultados mediante un dashboard visual y de fácil interpretación.
@@ -34,7 +33,7 @@ Diseñar e implementar un dashboard de empresas que permita analizar la informac
 
 La información utilizada proviene de la base de datos **MongoDB de Laboral.AI**.
 
-Para la construcción del dashboard se consideran principalmente las siguientes colecciones:
+Las principales colecciones utilizadas son:
 
 * `companies`
 * `jobs`
@@ -46,33 +45,31 @@ Estas colecciones permiten integrar información sobre las empresas, sus ofertas
 
 ## Procesamiento de datos
 
-El proceso de preparación de los datos contempla las siguientes etapas:
+El procesamiento de los datos contempla las siguientes etapas:
 
 1. Conexión con MongoDB mediante variables de entorno.
 2. Extracción de las colecciones necesarias.
 3. Conversión de los datos a DataFrames mediante Pandas.
-4. Selección de las columnas relevantes para el análisis.
+4. Selección de las columnas relevantes.
 5. Limpieza y tratamiento de valores nulos.
-6. Normalización de categorías y nombres de empresas.
+6. Normalización de categorías, nombres e identificadores.
 7. Transformación de estructuras anidadas.
-8. Normalización de identificadores.
-9. Cruce de información entre las colecciones.
-10. Eliminación de registros duplicados cuando corresponde.
-11. Creación de variables derivadas.
-12. Construcción de datasets finales para el análisis.
-13. Validación de los datos utilizados para los indicadores del dashboard.
+8. Cruce de información entre las colecciones.
+9. Eliminación de duplicados cuando corresponde.
+10. Creación de variables derivadas.
+11. Construcción y validación de los datasets utilizados por el dashboard.
 
 ---
 
 ## Análisis
 
-El dashboard permite analizar principalmente:
+El dashboard permite analizar:
 
 ### Crecimiento de empresas
 
 * Evolución mensual de empresas registradas.
 * Cantidad total de empresas.
-* Comportamiento de nuevos registros.
+* Nuevos registros.
 
 ### Perfil empresarial
 
@@ -92,19 +89,19 @@ El dashboard permite analizar principalmente:
 
 ### Postulaciones
 
-La información de `applications` permite complementar el análisis de las ofertas laborales mediante la cantidad de postulaciones asociadas a cada oportunidad.
+La colección `applications` permite complementar el análisis mediante la cantidad de postulaciones asociadas a las ofertas laborales.
 
 ---
 
 ## Visualizaciones
 
-Para facilitar la interpretación de los resultados se utilizan diferentes tipos de visualizaciones:
+El dashboard utiliza:
 
-* **Tarjetas KPI** para mostrar indicadores principales.
-* **Gráficos de barras** para comparar empresas, industrias y categorías.
+* **Tarjetas KPI** para los principales indicadores.
+* **Gráficos de barras** para comparar categorías y empresas.
 * **Gráficos de dona** para representar distribuciones.
-* **Gráficos de líneas** para analizar la evolución temporal.
-* **Gráficos de barras horizontales** para rankings de empresas.
+* **Gráficos de líneas** para analizar tendencias temporales.
+* **Gráficos de barras horizontales** para rankings.
 * **Filtros interactivos** para segmentar la información.
 
 ---
@@ -126,35 +123,38 @@ Para facilitar la interpretación de los resultados se utilizan diferentes tipos
 ```text
 laboral-ai-dashboard-empresas/
 │
-├── aplicación.py              # Aplicación principal del dashboard
-├── README.md                  # Documentación del proyecto
-├── requisitos.txt             # Dependencias del proyecto
-├── .env.example               # Plantilla de variables de entorno
-├── .gitignore                 # Archivos excluidos del repositorio
+├── aplicación.py
+├── README.md
+├── requisitos.txt
+├── .env.example
+├── .gitignore
 │
 ├── data/
-│   └── cache/                 # Datos procesados almacenados temporalmente
+│   └── cache/
 │
 └── scripts/
-    ├── __init__.py            # Inicialización del paquete
-    ├── conexion.py            # Conexión con MongoDB
-    ├── constructor.py         # Procesamiento y construcción de datasets
+    ├── __init__.py
+    ├── conexion.py
+    ├── constructor.py
     │
     └── indicadores/
         ├── __init__.py
-        └── indicadores.py     # Cálculo de indicadores y generación
-                               # de visualizaciones
+        └── indicadores.py
 ```
 
-> El archivo `.env` se utiliza únicamente de forma local y no se incluye en el repositorio, ya que puede contener información sensible.
+* `aplicación.py`: aplicación principal del dashboard.
+* `conexion.py`: conexión con MongoDB.
+* `constructor.py`: procesamiento y construcción de datasets.
+* `indicadores.py`: cálculo de indicadores y generación de visualizaciones.
+* `data/cache/`: almacenamiento temporal de datos procesados.
+
+> El archivo `.env` se utiliza únicamente de forma local y no se incluye en el repositorio debido a que puede contener información sensible.
 
 ---
 
 ## Funcionamiento
 
-El dashboard funciona mediante un flujo de extracción, procesamiento, transformación y visualización de los datos provenientes de MongoDB.
-
-### Flujo general
+El dashboard sigue un flujo de procesamiento que integra los datos de MongoDB y los transforma en indicadores y visualizaciones interactivas.
 
 ```text
 MongoDB
@@ -164,61 +164,23 @@ MongoDB
    └── applications
           │
           ▼
-    Extracción de datos
+    Extracción y procesamiento
           │
           ▼
-    Limpieza y transformación
+    Integración de datos
           │
           ▼
-    Integración de colecciones
+    Datasets procesados
           │
           ▼
-    Construcción de datasets
-          │
-          ▼
-    Cálculo de indicadores
+    Indicadores
           │
           ▼
     Visualizaciones con Plotly
           │
           ▼
     Dashboard con Streamlit
-          │
-          ▼
-    Análisis interactivo
 ```
-
-### Proceso de funcionamiento
-
-1. **Conexión con MongoDB**
-   La aplicación establece la conexión con la base de datos mediante las variables de entorno configuradas. Las credenciales no se almacenan directamente en el código fuente.
-
-2. **Extracción de información**
-   Se consultan las colecciones necesarias de MongoDB para obtener información sobre empresas, ofertas laborales y postulaciones.
-
-3. **Procesamiento de datos**
-   Los datos extraídos son convertidos a DataFrames mediante Pandas para facilitar su manipulación y análisis.
-
-4. **Limpieza y transformación**
-   Se realizan procesos de limpieza, tratamiento de valores nulos, normalización de categorías y nombres, transformación de estructuras anidadas y normalización de identificadores.
-
-5. **Integración de información**
-   Se relacionan los datos provenientes de las diferentes colecciones mediante los identificadores correspondientes, permitiendo analizar conjuntamente empresas, ofertas y postulaciones.
-
-6. **Construcción de datasets**
-   `constructor.py` contiene las funciones encargadas de procesar y construir los datasets que serán utilizados posteriormente por el dashboard.
-
-7. **Cálculo de indicadores**
-   Las funciones ubicadas en `scripts/indicadores/indicadores.py` permiten calcular los indicadores utilizados para analizar el crecimiento, perfil y actividad de las empresas.
-
-8. **Generación de visualizaciones**
-   Los resultados obtenidos son representados mediante gráficos interactivos utilizando Plotly.
-
-9. **Presentación del dashboard**
-   `aplicación.py` integra los datos, indicadores y visualizaciones en una interfaz desarrollada con Streamlit.
-
-10. **Exploración interactiva**
-    El usuario puede utilizar los filtros disponibles para segmentar la información y analizar diferentes características de las empresas y sus ofertas laborales.
 
 ---
 
@@ -269,6 +231,12 @@ streamlit run aplicación.py
 
 ## Resultado esperado
 
-El dashboard proporciona una visión centralizada de las empresas registradas en Laboral.AI y permite analizar su crecimiento, características y nivel de actividad.
+El dashboard proporciona una visión centralizada de las empresas registradas en Laboral.AI, permitiendo analizar su crecimiento, características y nivel de actividad.
 
-La información obtenida puede servir como apoyo al **área comercial para el monitoreo de empresas, identificación de tendencias y toma de decisiones basada en datos**.
+La información puede servir como apoyo al **área comercial para identificar tendencias y tomar decisiones basadas en datos**.
+
+---
+
+## Autor
+
+**Anahis Ramirez**
