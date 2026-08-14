@@ -327,6 +327,9 @@ def constructor():
 
     mongo_uri = obtener_configuracion("MONGO_URI")
     db_name = obtener_configuracion("DB_NAME")
+    
+    st.write("MONGO_URI configurado:", bool(mongo_uri))
+    st.write("DB_NAME configurado:", bool(db_name))
 
     if not mongo_uri:
         raise ValueError(
