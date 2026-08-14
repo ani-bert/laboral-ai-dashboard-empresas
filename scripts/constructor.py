@@ -300,15 +300,27 @@ def clasificar_area_profesional(department):
 
 def constructor():
 
-    # ========================================================
-    # 1. CONEXIÓN Y CARGA DESDE MONGODB
-    # ========================================================
+# ========================================================
+# 1. CONEXIÓN Y CARGA DESDE MONGODB
+# ========================================================
 
-    mongo_uri = os.getenv("MONGO_URI") or st.secrets.get("MONGO_URI")
-    db_name = os.getenv("DB_NAME") or st.secrets.get("DB_NAME")
+mongo_uri = os.getenv("MONGO_URI") or st.secrets.get("MONGO_URI")
+db_name = os.getenv("DB_NAME") or st.secrets.get("DB_NAME")
 
-    client = MongoClient(mongo_uri)
-    db = client[db_name]
+if not mongo_uri:
+    raise ValueError(
+        "No se encontró MONGO_URI en las variables de entorno "
+        "ni en Streamlit Secrets."
+    )
+
+if not db_name:
+    raise ValueError(
+        "No se encontró DB_NAME en las variables de entorno "
+        "ni en Streamlit Secrets."
+    )
+
+client = MongoClient(mongo_uri)
+db = client[db_name]
 
     companies_columns = [
         "_id",
