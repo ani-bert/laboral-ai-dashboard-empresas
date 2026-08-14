@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import pandas as pd
+import streamlit as st
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
@@ -303,8 +304,11 @@ def constructor():
     # 1. CONEXIÓN Y CARGA DESDE MONGODB
     # ========================================================
 
-    client = MongoClient(os.getenv("MONGO_URI"))
-    db = client[os.getenv("DB_NAME")]
+    mongo_uri = os.getenv("MONGO_URI") or st.secrets.get("MONGO_URI")
+    db_name = os.getenv("DB_NAME") or st.secrets.get("DB_NAME")
+
+    client = MongoClient(mongo_uri)
+    db = client[db_name]
 
     companies_columns = [
         "_id",
