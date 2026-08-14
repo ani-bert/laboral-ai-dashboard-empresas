@@ -1,4 +1,3 @@
-
 # Laboral.AI — Dashboard de Empresas
 
 ## Descripción del proyecto
@@ -29,7 +28,6 @@ Diseñar e implementar un dashboard de empresas que permita analizar la informac
 * Facilitar la exploración de los datos mediante filtros interactivos.
 * Presentar los resultados mediante un dashboard visual y de fácil interpretación.
 
-
 ---
 
 ## Fuente de datos
@@ -46,7 +44,7 @@ Estas colecciones permiten integrar información sobre las empresas, sus ofertas
 
 ---
 
-## ⚙️ Procesamiento de datos
+## Procesamiento de datos
 
 El proceso de preparación de los datos contempla las siguientes etapas:
 
@@ -63,7 +61,6 @@ El proceso de preparación de los datos contempla las siguientes etapas:
 11. Creación de variables derivadas.
 12. Construcción de datasets finales para el análisis.
 13. Validación de los datos utilizados para los indicadores del dashboard.
-
 
 ---
 
@@ -129,21 +126,99 @@ Para facilitar la interpretación de los resultados se utilizan diferentes tipos
 ```text
 laboral-ai-dashboard-empresas/
 │
-├── aplicación.py          # Aplicación principal del dashboard
-├── README.md              # Documentación del proyecto
-├── requisitos.txt         # Dependencias del proyecto
-├── .env.example           # Plantilla de variables de entorno
-├── .gitignore             # Archivos excluidos del repositorio
+├── aplicación.py              # Aplicación principal del dashboard
+├── README.md                  # Documentación del proyecto
+├── requisitos.txt             # Dependencias del proyecto
+├── .env.example               # Plantilla de variables de entorno
+├── .gitignore                 # Archivos excluidos del repositorio
 │
-├── data/                  # Datos utilizados durante el procesamiento
+├── data/
+│   └── cache/                 # Datos procesados almacenados temporalmente
 │
 └── scripts/
-    ├── __init__.py
-    ├── conexion.py        # Conexión con MongoDB
-    └── constructor.py     # Procesamiento y construcción de datos
+    ├── __init__.py            # Inicialización del paquete
+    ├── conexion.py            # Conexión con MongoDB
+    ├── constructor.py         # Procesamiento y construcción de datasets
+    │
+    └── indicadores/
+        ├── __init__.py
+        └── indicadores.py     # Cálculo de indicadores y generación
+                               # de visualizaciones
 ```
 
 > El archivo `.env` se utiliza únicamente de forma local y no se incluye en el repositorio, ya que puede contener información sensible.
+
+---
+
+## Funcionamiento
+
+El dashboard funciona mediante un flujo de extracción, procesamiento, transformación y visualización de los datos provenientes de MongoDB.
+
+### Flujo general
+
+```text
+MongoDB
+   │
+   ├── companies
+   ├── jobs
+   └── applications
+          │
+          ▼
+    Extracción de datos
+          │
+          ▼
+    Limpieza y transformación
+          │
+          ▼
+    Integración de colecciones
+          │
+          ▼
+    Construcción de datasets
+          │
+          ▼
+    Cálculo de indicadores
+          │
+          ▼
+    Visualizaciones con Plotly
+          │
+          ▼
+    Dashboard con Streamlit
+          │
+          ▼
+    Análisis interactivo
+```
+
+### Proceso de funcionamiento
+
+1. **Conexión con MongoDB**
+   La aplicación establece la conexión con la base de datos mediante las variables de entorno configuradas. Las credenciales no se almacenan directamente en el código fuente.
+
+2. **Extracción de información**
+   Se consultan las colecciones necesarias de MongoDB para obtener información sobre empresas, ofertas laborales y postulaciones.
+
+3. **Procesamiento de datos**
+   Los datos extraídos son convertidos a DataFrames mediante Pandas para facilitar su manipulación y análisis.
+
+4. **Limpieza y transformación**
+   Se realizan procesos de limpieza, tratamiento de valores nulos, normalización de categorías y nombres, transformación de estructuras anidadas y normalización de identificadores.
+
+5. **Integración de información**
+   Se relacionan los datos provenientes de las diferentes colecciones mediante los identificadores correspondientes, permitiendo analizar conjuntamente empresas, ofertas y postulaciones.
+
+6. **Construcción de datasets**
+   `constructor.py` contiene las funciones encargadas de procesar y construir los datasets que serán utilizados posteriormente por el dashboard.
+
+7. **Cálculo de indicadores**
+   Las funciones ubicadas en `scripts/indicadores/indicadores.py` permiten calcular los indicadores utilizados para analizar el crecimiento, perfil y actividad de las empresas.
+
+8. **Generación de visualizaciones**
+   Los resultados obtenidos son representados mediante gráficos interactivos utilizando Plotly.
+
+9. **Presentación del dashboard**
+   `aplicación.py` integra los datos, indicadores y visualizaciones en una interfaz desarrollada con Streamlit.
+
+10. **Exploración interactiva**
+    El usuario puede utilizar los filtros disponibles para segmentar la información y analizar diferentes características de las empresas y sus ofertas laborales.
 
 ---
 
@@ -192,7 +267,7 @@ streamlit run aplicación.py
 
 ---
 
-## 📌 Resultado esperado
+## Resultado esperado
 
 El dashboard proporciona una visión centralizada de las empresas registradas en Laboral.AI y permite analizar su crecimiento, características y nivel de actividad.
 
