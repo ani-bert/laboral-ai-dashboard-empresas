@@ -329,9 +329,6 @@ def constructor():
     mongo_uri = obtener_configuracion("MONGO_URI")
     db_name = obtener_configuracion("DB_NAME")
 
-    st.write("DEBUG - Secrets disponibles:", list(st.secrets.keys()))
-    st.write("DEBUG - MONGO_URI:", bool(mongo_uri))
-    st.write("DEBUG - DB_NAME:", bool(db_name))
 
     if not mongo_uri:
         raise ValueError(
