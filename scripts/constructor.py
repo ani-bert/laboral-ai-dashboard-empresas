@@ -27,8 +27,9 @@ CACHE_DIR.mkdir(parents=True, exist_ok=True)
 def obtener_configuracion(nombre):
 
     # Primero intenta obtener la variable desde .env
-    valor = os.getenv(nombre)
+    valor = st.secrets.get(nombre)
 
+    print("SECRET", nombre, "CONFIGURADO:", bool(valor))
     if valor:
         return valor
 
@@ -327,9 +328,10 @@ def constructor():
 
     mongo_uri = obtener_configuracion("MONGO_URI")
     db_name = obtener_configuracion("DB_NAME")
-    
-    st.write("MONGO_URI configurado:", bool(mongo_uri))
-    st.write("DB_NAME configurado:", bool(db_name))
+
+    st.write("DEBUG - Secrets disponibles:", list(st.secrets.keys()))
+    st.write("DEBUG - MONGO_URI:", bool(mongo_uri))
+    st.write("DEBUG - DB_NAME:", bool(db_name))
 
     if not mongo_uri:
         raise ValueError(
