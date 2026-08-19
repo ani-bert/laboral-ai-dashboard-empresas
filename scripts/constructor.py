@@ -27,13 +27,12 @@ CACHE_DIR.mkdir(parents=True, exist_ok=True)
 def obtener_configuracion(nombre):
 
     # Primero intenta obtener la variable desde .env
-    valor = st.secrets.get(nombre)
+    valor = os.getenv(nombre)
 
-    print("SECRET", nombre, "CONFIGURADO:", bool(valor))
     if valor:
         return valor
 
-    # Si no existe, intenta obtenerla desde Streamlit Secrets
+    # Si no existe en .env, intenta obtenerla desde Streamlit Secrets
     try:
         valor = st.secrets.get(nombre)
     except Exception:

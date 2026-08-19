@@ -1586,6 +1586,18 @@ else:
 
     ofertas_externas = 0
 
+if "isExternalOffer" in jobs_filtrados.columns:
+
+    ofertas_internas = contar_condicion(
+        jobs_filtrados,
+        "isExternalOffer",
+        False,
+    )
+
+else:
+
+    ofertas_internas = 0
+
 
 # ============================================================
 # TÍTULO
@@ -1629,8 +1641,8 @@ st.markdown(
 # KPI
 # ============================================================
 
-col1, col2, col3, col4 = st.columns(
-    4,
+col1, col2, col3, col4, col5 = st.columns(
+    5,
     gap="medium",
 )
 
@@ -1638,7 +1650,7 @@ col1, col2, col3, col4 = st.columns(
 with col1:
 
     st.metric(
-        label="Empresas registradas",
+        label="Total de empresas registradas",
         value=f"{total_empresas:,}",
     )
 
@@ -1646,7 +1658,7 @@ with col1:
 with col2:
 
     st.metric(
-        label="Ofertas laborales",
+        label="Total de ofertas laborales",
         value=f"{total_empleos:,}",
     )
 
@@ -1654,7 +1666,7 @@ with col2:
 with col3:
 
     st.metric(
-        label="Postulaciones",
+        label="Total de postulaciones",
         value=f"{total_postulaciones:,}",
     )
 
@@ -1662,11 +1674,17 @@ with col3:
 with col4:
 
     st.metric(
-        label="Ofertas externas",
+        label="Total de ofertas externas",
         value=f"{ofertas_externas:,}",
     )
 
+with col5:
 
+    st.metric(
+        label="Total de ofertas internas",
+        value=f"{ofertas_internas:,}",
+    )
+    
 # ============================================================
 # OFERTAS LABORALES
 # ============================================================
@@ -1675,15 +1693,14 @@ st.markdown("---")
 
 
 st.markdown(
-    "## Ofertas laborales"
+    "## Análisis de ofertas laborales"
 )
 
 
 st.markdown(
     """
     <div class="section-caption">
-        Distribución de las ofertas según área,
-        empresa, ubicación y modalidad
+        Distribución de las ofertas según sus principales características
     </div>
     """,
     unsafe_allow_html=True,
@@ -1712,8 +1729,8 @@ with col_graf1:
     ):
 
         tarjeta_grafico(
-            "Ofertas por área profesional",
-            "Distribución de las ofertas seleccionadas",
+            "Cantidad de ofertas laborales por área profesional",
+            "Distribución de las ofertas según el área profesional",
         )
 
         ofertas_por_area = (
@@ -1784,8 +1801,8 @@ with col_graf2:
     ):
 
         tarjeta_grafico(
-            "Empresas con mayor oferta laboral",
-            "Top 10 de empresas con mayor cantidad de ofertas laborales",
+            "Empresas con mayor cantidad de ofertas laborales",
+            "Top 10 de empresas según cantidad de ofertas laborales",
         )
 
         empresas_base = jobs_filtrados.copy()
@@ -2007,7 +2024,7 @@ with col_mapa:
     ):
 
         tarjeta_grafico(
-            "Ofertas por departamento",
+            "Cantidad de ofertas laborales por departamento",
             "Distribución geográfica de las ofertas laborales en el Perú",
         )
 
@@ -2277,7 +2294,7 @@ with col_jobtype:
     ):
 
         tarjeta_grafico(
-            "Ofertas por tipo de puesto",
+            "Cantidad de ofertas laborales por tipo de puesto",
             "Distribución de las ofertas según el nivel o tipo de puesto",
         )
 
@@ -2371,8 +2388,8 @@ with col_graf3:
     ):
 
         tarjeta_grafico(
-            "Ofertas por modalidad",
             "Distribución de ofertas laborales por modalidad",
+            "Distribución de ofertas laborales por modalidad de trabajo",
         )
 
         if "modality" in jobs_filtrados.columns:
@@ -2478,7 +2495,7 @@ with col_graf4:
     ):
 
         tarjeta_grafico(
-            "Postulaciones por estado",
+            "Cantidad de postulaciones por estado",
             "Estado de las postulaciones asociadas "
             "a las ofertas filtradas",
         )
@@ -2548,15 +2565,15 @@ st.markdown("---")
 
 
 st.markdown(
-    "## Evolución temporal"
+    "##  Evolución de ofertas y postulaciones"
 )
 
 
 st.markdown(
     """
     <div class="section-caption">
-        Comportamiento de ofertas y postulaciones
-        a lo largo del tiempo
+        Comportamiento mensual de las ofertas laborales 
+        y postulaciones
     </div>
     """,
     unsafe_allow_html=True,
@@ -2582,7 +2599,7 @@ with col_tiempo1:
 
         tarjeta_grafico(
             "Evolución de ofertas laborales",
-            "Cantidad de ofertas creadas por mes",
+            "Cantidad de ofertas laborales creadas por mes",
         )
 
         if not jobs_filtrados.empty:
