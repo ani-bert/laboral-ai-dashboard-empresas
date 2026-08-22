@@ -36,3 +36,10 @@ _id,isActive,createdAt,plan,businessName,country,industry,verificationStatus,pla
 6a516874269dd13c50d6d8eb,True,2026-07-10 21:47:32.650,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 7, 10, 21, 53, 3, 548000), 'endsAt': datetime.datetime(2026, 10, 8, 21, 53, 3, 548000)}}",BAMBOO BALANCE PERU S.A.C.,Perú,['E-commerce y Marketplaces'],PENDING,FREE_TRIAL
 6a5e84dc5335905510d7acf1,True,2026-07-20 20:28:12.550,{'type': 'NONE'},,,[],NOT_STARTED,NONE
 6a7cfe782032e1bad3c26e2f,True,2026-08-12 23:15:04.619,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 8, 12, 23, 15, 47, 778000), 'endsAt': datetime.datetime(2026, 11, 10, 23, 15, 47, 778000)}}",,,[],NOT_STARTED,FREE_TRIAL
+6a8263784e7d725dc8f3d34a,True,2026-08-17 01:27:20.504,{'type': 'NONE'},,,[],NOT_STARTED,NONE
+6a8348497dafe140b0f4abf9,True,2026-08-17 17:43:37.993,{'type': 'NONE'},,,[],NOT_STARTED,NONE
+6a83a8db7dafe140b0f4f7e3,True,2026-08-18 00:35:39.685,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 8, 18, 0, 36, 34, 178000), 'endsAt': datetime.datetime(2026, 11, 16, 0, 36, 34, 178000)}}",,,[],NOT_STARTED,FREE_TRIAL
+6a84b047fa5c829806e36e48,True,2026-08-18 19:19:35.480,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 8, 19, 14, 8, 46, 370000), 'endsAt': datetime.datetime(2026, 11, 17, 14, 8, 46, 370000)}}",,,[],NOT_STARTED,FREE_TRIAL
+6a85d97e06b7a9e6caa023dc,True,2026-08-19 16:27:42.870,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 8, 19, 16, 29, 3, 970000), 'endsAt': datetime.datetime(2026, 11, 17, 16, 29, 3, 970000)}}",,,[],NOT_STARTED,FREE_TRIAL
+6a87337d06b7a9e6caa0cff9,True,2026-08-20 17:03:57.466,"{'type': 'FREE_TRIAL', 'freeTrial': {'startedAt': datetime.datetime(2026, 8, 20, 17, 10, 5, 587000), 'endsAt': datetime.datetime(2026, 11, 18, 17, 10, 5, 587000)}}",,,[],NOT_STARTED,FREE_TRIAL
+6a88574006b7a9e6caa1af35,True,2026-08-21 13:48:48.889,{'type': 'NONE'},,,[],NOT_STARTED,NONE

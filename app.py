@@ -490,7 +490,7 @@ st.markdown(
 
 
     /* ========================================================
-       BOTÓN RECARGAR
+       BOTONES SIDEBAR
        ======================================================== */
 
     section[data-testid="stSidebar"]
@@ -645,6 +645,7 @@ st.markdown(
             0 5px 20px rgba(23, 32, 42, 0.045) !important;
         padding: 0.25rem !important;
     }}
+
 
     /* ========================================================
        TARJETAS ALINEADAS
@@ -1128,6 +1129,82 @@ def normalizar_texto(
 
 
 # ============================================================
+# NORMALIZAR NOMBRE DE EMPRESA
+# ============================================================
+
+def normalizar_empresa(
+    nombre,
+):
+
+    if pd.isna(nombre):
+
+        return ""
+
+    nombre = str(nombre).strip()
+
+    if not nombre:
+
+        return ""
+
+    nombre = unicodedata.normalize(
+        "NFKD",
+        nombre,
+    )
+
+    nombre = "".join(
+        caracter
+        for caracter in nombre
+        if not unicodedata.combining(
+            caracter
+        )
+    )
+
+    nombre = nombre.upper()
+
+    nombre = (
+        nombre
+        .replace(".", " ")
+        .replace(",", " ")
+        .replace(";", " ")
+        .replace(":", " ")
+        .replace("-", " ")
+        .replace("_", " ")
+    )
+
+    nombre = " ".join(
+        nombre.split()
+    )
+
+    # ========================================================
+    # HOMOLOGACIÓN DE FORMAS JURÍDICAS
+    # ========================================================
+
+    reemplazos = {
+        " SOCIEDAD ANONIMA CERRADA": " SAC",
+        " SOCIEDAD ANONIMA": " SA",
+        " SOCIEDAD COMERCIAL DE RESPONSABILIDAD LIMITADA": " SRL",
+        " SOCIEDAD COMERCIAL DE RESPONSABILIDAD LIMITADA ": " SRL",
+        " S A C": " SAC",
+        " S A": " SA",
+        " S R L": " SRL",
+        " S A A": " SAA",
+    }
+
+    for original, reemplazo in reemplazos.items():
+
+        if nombre.endswith(original):
+
+            nombre = (
+                nombre[
+                    : -len(original)
+                ].strip()
+                + reemplazo
+            )
+
+    return nombre.strip()
+
+
+# ============================================================
 # CARGA DE DATOS
 # ============================================================
 
@@ -1308,7 +1385,63 @@ jobs.loc[
 
 
 # ============================================================
-# RANGO DE FECHAS
+# PREPARAR TIPO DE OFERTA
+# ============================================================
+
+if "isExternalOffer" not in jobs.columns:
+
+    jobs["isExternalOffer"] = pd.NA
+
+
+def clasificar_tipo_oferta(
+    valor,
+):
+
+    if pd.isna(valor):
+
+        return "No definido"
+
+    if isinstance(valor, bool):
+
+        if valor:
+
+            return "Externas"
+
+        return "Internas"
+
+    valor_texto = str(valor).strip().lower()
+
+    if valor_texto in [
+        "true",
+        "1",
+        "1.0",
+        "si",
+        "sí",
+        "yes",
+    ]:
+
+        return "Externas"
+
+    if valor_texto in [
+        "false",
+        "0",
+        "0.0",
+        "no",
+    ]:
+
+        return "Internas"
+
+    return "No definido"
+
+
+jobs["tipo_oferta"] = (
+    jobs["isExternalOffer"]
+    .apply(clasificar_tipo_oferta)
+)
+
+
+# ============================================================
+# RANGO DE FECHAS DISPONIBLE
 # ============================================================
 
 fecha_min = jobs["createdAt"].min()
@@ -1316,11 +1449,145 @@ fecha_min = jobs["createdAt"].min()
 fecha_max = jobs["createdAt"].max()
 
 
+if pd.isna(fecha_min) or pd.isna(fecha_max):
+
+    st.error(
+        "No existen fechas válidas en las ofertas laborales."
+    )
+
+    st.stop()
+
+
 # ============================================================
-# SIDEBAR
+# CALLBACK PARA ACTUALIZAR LAS FECHAS SEGÚN EL PERÍODO
+# ============================================================
+
+def actualizar_periodo():
+
+    periodo_actual = st.session_state[
+        "filtro_periodo"
+    ]
+
+    if periodo_actual == "Últimos 7 días":
+
+        fecha_inicio = (
+            fecha_max
+            - pd.Timedelta(days=7)
+        )
+
+    elif periodo_actual == "Últimos 30 días":
+
+        fecha_inicio = (
+            fecha_max
+            - pd.Timedelta(days=30)
+        )
+
+    elif periodo_actual == "Últimos 3 meses":
+
+        fecha_inicio = (
+            fecha_max
+            - pd.DateOffset(months=3)
+        )
+
+    elif periodo_actual == "Último año":
+
+        fecha_inicio = (
+            fecha_max
+            - pd.DateOffset(years=1)
+        )
+
+    else:
+
+        fecha_inicio = fecha_min
+
+    fecha_inicio = max(
+        fecha_inicio,
+        fecha_min,
+    )
+
+    st.session_state[
+        "filtro_fecha_inicio"
+    ] = fecha_inicio.date()
+
+    st.session_state[
+        "filtro_fecha_fin"
+    ] = fecha_max.date()
+
+
+# ============================================================
+# CALLBACK LIMPIAR FILTROS
+# ============================================================
+
+def limpiar_filtros():
+
+    st.session_state[
+        "filtro_area"
+    ] = "Todas"
+
+    st.session_state[
+        "filtro_tipo_oferta"
+    ] = "Todas"
+
+    st.session_state[
+        "filtro_periodo"
+    ] = "Completo"
+
+    st.session_state[
+        "filtro_fecha_inicio"
+    ] = fecha_min.date()
+
+    st.session_state[
+        "filtro_fecha_fin"
+    ] = fecha_max.date()
+
+
+# ============================================================
+# INICIALIZAR FILTROS EN SESSION STATE
+# ============================================================
+
+if "filtro_area" not in st.session_state:
+
+    st.session_state[
+        "filtro_area"
+    ] = "Todas"
+
+
+if "filtro_tipo_oferta" not in st.session_state:
+
+    st.session_state[
+        "filtro_tipo_oferta"
+    ] = "Todas"
+
+
+if "filtro_periodo" not in st.session_state:
+
+    st.session_state[
+        "filtro_periodo"
+    ] = "Completo"
+
+
+if "filtro_fecha_inicio" not in st.session_state:
+
+    st.session_state[
+        "filtro_fecha_inicio"
+    ] = fecha_min.date()
+
+
+if "filtro_fecha_fin" not in st.session_state:
+
+    st.session_state[
+        "filtro_fecha_fin"
+    ] = fecha_max.date()
+
+# ============================================================
+# FILTROS SIDEBAR
 # ============================================================
 
 with st.sidebar:
+
+    # ========================================================
+    # FILTRO ÁREA
+    # ========================================================
 
     st.markdown(
         '<div class="filter-label">Área</div>',
@@ -1331,7 +1598,35 @@ with st.sidebar:
         "Área",
         ["Todas"] + areas_profesionales,
         label_visibility="collapsed",
+        key="filtro_area",
     )
+
+
+    # ========================================================
+    # FILTRO TIPO DE OFERTA
+    # ========================================================
+
+    st.markdown(
+        '<div class="filter-label">Tipo de oferta</div>',
+        unsafe_allow_html=True,
+    )
+
+    tipo_oferta = st.selectbox(
+        "Tipo de oferta",
+        [
+            "Todas",
+            "Internas",
+            "Externas",
+            "No definido",
+        ],
+        label_visibility="collapsed",
+        key="filtro_tipo_oferta",
+    )
+
+
+    # ========================================================
+    # FILTRO PERÍODO
+    # ========================================================
 
     st.markdown(
         '<div class="date-section-title">Período</div>',
@@ -1339,67 +1634,23 @@ with st.sidebar:
     )
 
     periodo = st.radio(
-        "Período",
-        [
-            "Últimos 7 días",
-            "Últimos 30 días",
-            "Últimos 3 meses",
-            "Último año",
-            "Completo",
-        ],
-        index=4,
-        label_visibility="collapsed",
-    )
-
-
-# ============================================================
-# CÁLCULO FECHA INICIAL
-# ============================================================
-
-if periodo == "Últimos 7 días":
-
-    fecha_inicio_calculada = (
-        fecha_max
-        - pd.Timedelta(days=7)
-    )
-
-elif periodo == "Últimos 30 días":
-
-    fecha_inicio_calculada = (
-        fecha_max
-        - pd.Timedelta(days=30)
-    )
-
-elif periodo == "Últimos 3 meses":
-
-    fecha_inicio_calculada = (
-        fecha_max
-        - pd.DateOffset(months=3)
-    )
-
-elif periodo == "Último año":
-
-    fecha_inicio_calculada = (
-        fecha_max
-        - pd.DateOffset(years=1)
-    )
-
-else:
-
-    fecha_inicio_calculada = fecha_min
-
-
-fecha_inicio_calculada = max(
-    fecha_inicio_calculada,
-    fecha_min,
+    "Período",
+    [
+        "Últimos 7 días",
+        "Últimos 30 días",
+        "Últimos 3 meses",
+        "Último año",
+        "Completo",
+    ],
+    label_visibility="collapsed",
+    key="filtro_periodo",
+    on_change=actualizar_periodo,
 )
 
 
-# ============================================================
-# FECHAS
-# ============================================================
-
-with st.sidebar:
+    # ========================================================
+    # FECHAS
+    # ========================================================
 
     st.markdown(
         '<div class="date-section-title">'
@@ -1417,25 +1668,53 @@ with st.sidebar:
 
         fecha_inicio = st.date_input(
             "Fecha inicio",
-            value=fecha_inicio_calculada.date(),
             min_value=fecha_min.date(),
             max_value=fecha_max.date(),
             format="DD/MM/YYYY",
+            key="filtro_fecha_inicio",
         )
 
     with col_fecha2:
 
         fecha_fin = st.date_input(
             "Fecha fin",
-            value=fecha_max.date(),
             min_value=fecha_min.date(),
             max_value=fecha_max.date(),
             format="DD/MM/YYYY",
+            key="filtro_fecha_fin",
         )
 
 
+    # ========================================================
+    # BOTONES
+    # ========================================================
+
+    st.markdown("---")
+
+
+    if st.button(
+        "Limpiar filtros",
+        use_container_width=True,
+        key="btn_limpiar_filtros",
+        on_click=limpiar_filtros,
+    ):
+
+        st.rerun()
+
+
+    if st.button(
+        "Forzar recarga de datos",
+        use_container_width=True,
+        key="btn_recargar",
+    ):
+
+        st.cache_data.clear()
+
+        st.rerun()
+
+
 # ============================================================
-# VALIDACIÓN FECHAS
+# VALIDACIÓN DE FECHAS
 # ============================================================
 
 if fecha_inicio > fecha_fin:
@@ -1446,24 +1725,6 @@ if fecha_inicio > fecha_fin:
     )
 
     st.stop()
-
-
-# ============================================================
-# BOTÓN RECARGAR
-# ============================================================
-
-with st.sidebar:
-
-    st.markdown("---")
-
-    if st.button(
-        "Forzar recarga de datos",
-        use_container_width=True,
-    ):
-
-        st.cache_data.clear()
-
-        st.rerun()
 
 
 # ============================================================
@@ -1482,7 +1743,7 @@ fecha_fin_ts = (
 
 
 # ============================================================
-# FILTRO PRINCIPAL
+# FILTRO PRINCIPAL POR FECHAS
 # ============================================================
 
 jobs_filtrados = jobs[
@@ -1513,7 +1774,21 @@ if area_seleccionada != "Todas":
 
 
 # ============================================================
-# IDS OFERTAS
+# FILTRO POR TIPO DE OFERTA
+# ============================================================
+
+if tipo_oferta != "Todas":
+
+    jobs_filtrados = jobs_filtrados[
+        jobs_filtrados[
+            "tipo_oferta"
+        ]
+        == tipo_oferta
+    ].copy()
+
+
+# ============================================================
+# IDS DE OFERTAS FILTRADAS
 # ============================================================
 
 ids_jobs_filtrados = set(
@@ -1529,13 +1804,15 @@ ids_jobs_filtrados = set(
 
 if "_id_job" in applications_jobs_df.columns:
 
+    aplicaciones_ids = normalizar_id(
+        applications_jobs_df[
+            "_id_job"
+        ]
+    )
+
     applications_filtradas = (
         applications_jobs_df[
-            normalizar_id(
-                applications_jobs_df[
-                    "_id_job"
-                ]
-            ).isin(
+            aplicaciones_ids.isin(
                 ids_jobs_filtrados
             )
         ].copy()
@@ -1550,55 +1827,75 @@ else:
 # KPIs
 # ============================================================
 
-total_postulaciones = len(
-    applications_filtradas
-)
-
-
-if "_id" in companies.columns:
-
-    total_empresas = calcular_total_unico(
-        companies,
-        "_id",
-    )
-
-else:
-
-    total_empresas = len(
-        companies
-    )
-
+# ============================================================
+# TOTAL DE OFERTAS
+# ============================================================
 
 total_empleos = len(
     jobs_filtrados
 )
 
 
-if "isExternalOffer" in jobs_filtrados.columns:
+# ============================================================
+# TOTAL DE POSTULACIONES
+# ============================================================
 
-    ofertas_externas = contar_condicion(
-        jobs_filtrados,
-        "isExternalOffer",
-        True,
+total_postulaciones = len(
+    applications_filtradas
+)
+
+
+# ============================================================
+# PROMEDIO DE POSTULACIONES POR OFERTA
+# ============================================================
+
+if total_empleos > 0:
+
+    promedio_postulaciones_oferta = (
+        total_postulaciones
+        / total_empleos
     )
 
 else:
 
-    ofertas_externas = 0
+    promedio_postulaciones_oferta = 0
 
-if "isExternalOffer" in jobs_filtrados.columns:
 
-    ofertas_internas = contar_condicion(
-        jobs_filtrados,
-        "isExternalOffer",
-        False,
-    )
+# ============================================================
+# TOTAL DE EMPRESAS REGISTRADAS
+# ============================================================
+
+# IMPORTANTE:
+# NO usamos companies["_id"].nunique()
+# porque eso cuenta documentos/IDs y puede generar
+# valores como 687 aunque existan muchas empresas
+# repetidas con nombres diferentes.
+# ============================================================
+# TOTAL DE EMPRESAS REGISTRADAS
+# ============================================================
+
+if not companies.empty:
+
+    if "_id" in companies.columns:
+
+        total_empresas = (
+            companies["_id"]
+            .dropna()
+            .astype(str)
+            .str.strip()
+            .replace("", pd.NA)
+            .dropna()
+            .nunique()
+        )
+
+    else:
+
+        total_empresas = len(companies)
 
 else:
 
-    ofertas_internas = 0
-
-
+    total_empresas = 0
+    
 # ============================================================
 # TÍTULO
 # ============================================================
@@ -1641,8 +1938,8 @@ st.markdown(
 # KPI
 # ============================================================
 
-col1, col2, col3, col4, col5 = st.columns(
-    5,
+col1, col2, col3 = st.columns(
+    3,
     gap="medium",
 )
 
@@ -1671,20 +1968,6 @@ with col3:
     )
 
 
-with col4:
-
-    st.metric(
-        label="Total de ofertas externas",
-        value=f"{ofertas_externas:,}",
-    )
-
-with col5:
-
-    st.metric(
-        label="Total de ofertas internas",
-        value=f"{ofertas_internas:,}",
-    )
-    
 # ============================================================
 # OFERTAS LABORALES
 # ============================================================
@@ -1733,54 +2016,56 @@ with col_graf1:
             "Distribución de las ofertas según el área profesional",
         )
 
-        ofertas_por_area = (
-            jobs_filtrados[
-                "professionalArea"
-            ]
-            .value_counts()
-            .reindex(
-                areas_profesionales,
-                fill_value=0,
+        if not jobs_filtrados.empty:
+
+            ofertas_por_area = (
+                jobs_filtrados[
+                    "professionalArea"
+                ]
+                .value_counts()
+                .reindex(
+                    areas_profesionales,
+                    fill_value=0,
+                )
+                .reset_index()
             )
-            .reset_index()
-        )
 
-        ofertas_por_area.columns = [
-            "area",
-            "cantidad",
-        ]
-
-        ofertas_por_area = (
-            ofertas_por_area[
-                ofertas_por_area[
-                    "cantidad"
-                ] > 0
-            ]
-            .sort_values(
+            ofertas_por_area.columns = [
+                "area",
                 "cantidad",
-                ascending=True,
+            ]
+
+            ofertas_por_area = (
+                ofertas_por_area[
+                    ofertas_por_area[
+                        "cantidad"
+                    ] > 0
+                ]
+                .sort_values(
+                    "cantidad",
+                    ascending=True,
+                )
             )
-        )
 
-        fig = grafico_barras(
-            ofertas_por_area,
-            x="area",
-            y="cantidad",
-            horizontal=True,
-            altura=470,
-            color=VERDE_BARRA,
-        )
-
-        if fig is not None:
-
-            st.plotly_chart(
-                fig,
-                use_container_width=True,
-                config={
-                    "displayModeBar": False,
-                    "responsive": True,
-                },
+            fig = grafico_barras(
+                ofertas_por_area,
+                x="area",
+                y="cantidad",
+                horizontal=True,
+                altura=470,
+                color=VERDE_BARRA,
             )
+
+            if fig is not None:
+
+                st.plotly_chart(
+                    fig,
+                    use_container_width=True,
+                    config={
+                        "displayModeBar": False,
+                        "responsive": True,
+                    },
+                )
 
         else:
 
@@ -1807,17 +2092,17 @@ with col_graf2:
 
         empresas_base = jobs_filtrados.copy()
 
-        if "isExternalOffer" in empresas_base.columns:
 
-            externas = empresas_base[
-                empresas_base[
-                    "isExternalOffer"
-                ] == True
-            ].copy()
+        # ====================================================
+        # OFERTAS EXTERNAS
+        # ====================================================
 
-        else:
+        externas = empresas_base[
+            empresas_base[
+                "tipo_oferta"
+            ] == "Externas"
+        ].copy()
 
-            externas = pd.DataFrame()
 
         if (
             not externas.empty
@@ -1830,32 +2115,33 @@ with col_graf2:
                 externas[
                     "externalCompanyName"
                 ]
-                .fillna("")
-                .astype(str)
-                .str.strip()
+                .apply(normalizar_empresa)
             )
 
         else:
 
             externas["empresa"] = ""
 
-        if "isExternalOffer" in empresas_base.columns:
 
-            internas = empresas_base[
-                empresas_base[
-                    "isExternalOffer"
-                ] != True
-            ].copy()
+        # ====================================================
+        # OFERTAS INTERNAS
+        # ====================================================
 
-        else:
+        internas = empresas_base[
+            empresas_base[
+                "tipo_oferta"
+            ] == "Internas"
+        ].copy()
 
-            internas = empresas_base.copy()
 
         if (
             not internas.empty
-            and "companyId" in internas.columns
-            and "_id" in companies.columns
-            and "businessName" in companies.columns
+            and "companyId"
+            in internas.columns
+            and "_id"
+            in companies.columns
+            and "businessName"
+            in companies.columns
         ):
 
             empresas_internas_df = internas.merge(
@@ -1874,9 +2160,7 @@ with col_graf2:
                 empresas_internas_df[
                     "businessName"
                 ]
-                .fillna("")
-                .astype(str)
-                .str.strip()
+                .apply(normalizar_empresa)
             )
 
         else:
@@ -1884,6 +2168,11 @@ with col_graf2:
             empresas_internas_df = internas.copy()
 
             empresas_internas_df["empresa"] = ""
+
+
+        # ====================================================
+        # UNIR EMPRESAS
+        # ====================================================
 
         empresas_grafico = pd.concat(
             [
@@ -1897,6 +2186,7 @@ with col_graf2:
             ignore_index=True,
         )
 
+
         empresas_grafico["empresa"] = (
             empresas_grafico[
                 "empresa"
@@ -1906,11 +2196,17 @@ with col_graf2:
             .str.strip()
         )
 
+
+        # ====================================================
+        # ELIMINAR EMPRESAS VACÍAS
+        # ====================================================
+
         empresas_grafico = empresas_grafico[
             empresas_grafico[
                 "empresa"
             ] != ""
         ].copy()
+
 
         empresas_grafico = empresas_grafico[
             ~empresas_grafico[
@@ -1921,22 +2217,16 @@ with col_graf2:
                     "none",
                     "null",
                     "na",
+                    "n a",
                     "n/a",
                 ]
             )
         ].copy()
 
-        empresas_grafico["empresa"] = (
-            empresas_grafico[
-                "empresa"
-            ]
-            .str.replace(
-                r"\s+",
-                " ",
-                regex=True,
-            )
-            .str.strip()
-        )
+
+        # ====================================================
+        # RANKING
+        # ====================================================
 
         if not empresas_grafico.empty:
 
@@ -1971,6 +2261,7 @@ with col_graf2:
                 )
             )
 
+
             fig = grafico_barras(
                 ranking_empresas,
                 x="empresa",
@@ -1979,6 +2270,7 @@ with col_graf2:
                 altura=470,
                 color=CELESTE_BARRA,
             )
+
 
             if fig is not None:
 
@@ -2565,14 +2857,14 @@ st.markdown("---")
 
 
 st.markdown(
-    "##  Evolución de ofertas y postulaciones"
+    "## Evolución de ofertas y postulaciones"
 )
 
 
 st.markdown(
     """
     <div class="section-caption">
-        Comportamiento mensual de las ofertas laborales 
+        Comportamiento mensual de las ofertas laborales
         y postulaciones
     </div>
     """,
